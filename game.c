@@ -179,7 +179,7 @@ void Game_InitLevel(u32 nLvl)
                     gArea[i].isSolid=e_Area_Solid;
                     gArea[i].nDir=-1; 
                     gArea[i].nBlkX=Game_IdxMapToCoordinatesX(i);
-                    gArea[i].nBlkY=Game_IdxMapToCoordinatesY(i);                    
+                    gArea[i].nBlkY=Game_IdxMapToCoordinatesY(i);
                 }
                 // Eau
                 else if (nBox >= e_Spr_Water_Shade && nBox < e_Spr_Lava_Shade)
@@ -213,6 +213,30 @@ void Game_InitLevel(u32 nLvl)
                     gArea[i].nBlkX=Game_IdxMapToCoordinatesX(i);
                     gArea[i].nBlkY=Game_IdxMapToCoordinatesY(i);                    
                 }
+            }
+        }
+    }
+
+    for (u32 i = 0; i < gMstsLvls[nLvl].nNbMsts; i++)
+    {
+        if(gMst[i].nUsed){
+
+            SMonster sMst=gMst[i];
+
+            // Ajout des mst static dans la scène
+            if(
+                sMst.nName == e_Mst_Leeper || sMst.nName == e_Mst_Skull ||
+                sMst.nName == e_Mst_Snakey || sMst.nName == e_Mst_Gol ||
+                sMst.nName == e_Mst_Whale
+            ){
+                u32 nBlkX=sMst.nPosX >> 12;
+                u32 nBlkY=sMst.nPosY >> 12;
+                gArea[nBlkY*AREA_WIDTH+nBlkX].nSprNo=sMst.nNoSpr;
+                gArea[nBlkY*AREA_WIDTH+nBlkX].nType=e_Area_Mst;
+                gArea[nBlkY*AREA_WIDTH+nBlkX].isSolid=e_Area_Solid;
+                gArea[nBlkY*AREA_WIDTH+nBlkX].nDir=sMst.nDir; 
+                gArea[nBlkY*AREA_WIDTH+nBlkX].nBlkX=nBlkX;
+                gArea[nBlkY*AREA_WIDTH+nBlkX].nBlkY=nBlkY;
             }
         }
     }
@@ -1006,6 +1030,8 @@ void Game_Init(void)
     Game_InitPlyr(gGen.nLevel);
 
     Game_InitLevel(gGen.nLevel);
+    Level_Display(gpLevels[gGame.nLevel], true);
+    info_context printf("%d", gArea[12*AREA_WIDTH+3].nType); lf
 }
 
 void Game_ExgExit(u32 nExitCode){
