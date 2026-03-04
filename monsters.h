@@ -35,13 +35,13 @@ extern SMstsLvls gMstsLvls[];
 // Noms des monstres.
 enum EMstName{
     // En mouvement :
-    e_Mst_Alma,
-    e_Mst_Leeper,
-    e_Mst_Rocky,
-    e_Mst_Skull,
+    e_Mst_Alma, 
+    e_Mst_Rocky, 
     e_Mst_Medusa,
     e_Mst_DonMedusa,    
     // Static :
+    e_Mst_Leeper, // Si collision
+    e_Mst_Skull, // Après récupéré le diamant du coffre
     e_Mst_Snakey,
     e_Mst_Gol,
     e_Mst_Whale,
@@ -107,7 +107,7 @@ u32 Monsters_GetSlot(void);
 void Monsters_InitMonsters(u32 nLvl);
 // Retourne un numéro de slot du moteur de monstre et qui attribut un slot d'anim s'il y en à une. 
 // nNoMst : n° du sprite.
-s32 Monsters_InitMonsters_Aux(u32 nNoSlotMst, u32 nNoMst, u64 *pAnim, u64 nAnimNoSlot, u32 nDir, u32 nPosX, u32 nPosY, u8 nProperty, s16 nSpeed, u32 nName);
+s32 Monsters_InitMonsters_Aux(u32 nNoSlotMst, u32 nNoMst, u64 *pAnim, u64 nAnimNoSlot, u32 nDir, u32 nBlkX, u32 nBlkY, u8 nProperty, s16 nSpeed, u32 nName);
 // Gestion des mnostres (collision, etc). A faire
 void Monsters_Manage(void);
 void Monster_Recalage(struct SMonster *pMst, u32 nLastPosX, u32 nLastPosY);
