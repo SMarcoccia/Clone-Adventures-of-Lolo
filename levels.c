@@ -135,21 +135,21 @@ SPlyrsLvls gPlyrsLvls[]={
 //    //info_context lf Level_Display(gArea); lf
 //}
 
-//void Level_DisplayCollide(s16 *pLvl){
-//    for (u32 i = 0, k=0; i < AREA_WIDTH*AREA_HEIGHT; i++, k++){
-//        if(k < AREA_WIDTH){
-//            if (pLvl[i] != e_Case_Solid ){
-//                printf("%4d", pLvl[i]); 
-//            }else{
-//                printf("\x1b[1;45m%4d\x1b[0m", pLvl[i]); 
-//            }
-//        }else{
-//            k=-1;
-//            i-=1;
-//            lf
-//        } 
-//    }
-//}
+void Level_DisplayCollide(s16 *pLvl){
+    for (u32 i = 0, k=0; i < AREA_WIDTH*AREA_HEIGHT; i++, k++){
+        if(k < AREA_WIDTH){
+            if (pLvl[i] != e_Area_Solid ){
+                printf("%4d", pLvl[i]); 
+            }else{
+                printf("\x1b[1;45m%4d\x1b[0m", pLvl[i]); 
+            }
+        }else{
+            k=-1;
+            i-=1;
+            lf
+        } 
+    }
+}
 
 void Level_Display(s16 *pLvl, bool isLvlCollide)
 {
@@ -209,6 +209,6 @@ void Level_Display(s16 *pLvl, bool isLvlCollide)
         }
     }else
     {
-        //Level_DisplayCollide(pLvl); lf
+        Level_DisplayCollide(pLvl); lf
     }
 }

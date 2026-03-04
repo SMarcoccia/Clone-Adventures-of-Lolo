@@ -1,4 +1,6 @@
 
+// TODO : faire Level_DisplayArea qui tient compte des monstres statics
+
 // ATTENTION : 
 //    - Le .h se trouve dans includes.c
 //    - On ne définie (u32 nMaVariable=0;) pas les variables dans les entêtes mais dans les .c. Dans le .h uniquement la déclaration (u32 nMaVariable;).

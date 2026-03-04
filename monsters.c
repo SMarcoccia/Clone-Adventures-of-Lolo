@@ -12,7 +12,7 @@ SMonster gMst[MST_MAX_SLOTS];
 // Monsters :
 // (n° de sprite, nom de l'anim (si pas d'anim NULL) on cast car la paramètre formel est en u64, direction, position en case, si inoffensif ou dangereux) : 
 SMstLvl gMstLvl1[]={
-    //{e_Spr_Snakey_Rotate_Left, NULL, e_Dir_Down, 12, 3, e_Mst_Harmless, 0, e_Mst_Snakey},
+    {e_Spr_Snakey_Rotate_Left, NULL, e_Dir_Down, 12, 3, e_Mst_Harmless, 0, e_Mst_Snakey},
     {e_Spr_Rocky_Stand_Down, gAnim_Rocky_Idle_Down, e_Dir_Down, 10, 8, e_Mst_Harmless, MST_SPEED_INIT, e_Mst_Rocky},
     //{e_Spr_Leeper_Down_Stand, gAnim_Leeper_Idle_Down, e_Dir_Down, 11, 2, e_Mst_Harmless, MST_SPEED_INIT, e_Mst_Leeper},
 };
@@ -24,7 +24,7 @@ SMstLvl gMstLvl2[]={
 };
 
 SMstsLvls gMstsLvls[]={
-    {gMstLvl1, 1},
+    {gMstLvl1, 2},
     {gMstLvl2, 2},
 };
 
@@ -738,8 +738,8 @@ void Monsters_InitMonsters(u32 nLvl)
             gMstsLvls[nLvl].pMstsLvl[i].pAnm, 
             -1, 
             gMstsLvls[nLvl].pMstsLvl[i].nDir, 
-            gMstsLvls[nLvl].pMstsLvl[i].nColumns << 12, 
-            gMstsLvls[nLvl].pMstsLvl[i].nLines << 12, 
+            gMstsLvls[nLvl].pMstsLvl[i].nColumns, 
+            gMstsLvls[nLvl].pMstsLvl[i].nLines, 
             gMstsLvls[nLvl].pMstsLvl[i].nProperty, 
             gMstsLvls[nLvl].pMstsLvl[i].nSpeed,
             gMstsLvls[nLvl].pMstsLvl[i].nName
@@ -747,7 +747,7 @@ void Monsters_InitMonsters(u32 nLvl)
     }
 }    
 
-s32 Monsters_InitMonsters_Aux(u32 nNoSlotMst, u32 nNoMst, u64 *pAnim, u64 nAnimNoSlot, u32 nDir, u32 nPosX, u32 nPosY, u8 nProperty, s16 nSpeed, u32 nName)
+s32 Monsters_InitMonsters_Aux(u32 nNoSlotMst, u32 nNoMst, u64 *pAnim, u64 nAnimNoSlot, u32 nDir, u32 nBlkX, u32 nBlkY, u8 nProperty, s16 nSpeed, u32 nName)
 {
     if(nNoSlotMst == - 1)
     {
@@ -763,8 +763,8 @@ s32 Monsters_InitMonsters_Aux(u32 nNoSlotMst, u32 nNoMst, u64 *pAnim, u64 nAnimN
     gMst[nNoSlotMst].nAnimNoSlot=nAnimNoSlot;
     gMst[nNoSlotMst].nDir=nDir;
     gMst[nNoSlotMst].nSpeed=nSpeed;
-    gMst[nNoSlotMst].nPosX=nPosX;
-    gMst[nNoSlotMst].nPosY=nPosY;
+    gMst[nNoSlotMst].nPosX=nBlkX << 12;
+    gMst[nNoSlotMst].nPosY=nBlkY << 12;
     gMst[nNoSlotMst].nState=e_MstAnim_Idle;
     gMst[nNoSlotMst].pAnim = pAnim;
     if(gMst[nNoSlotMst].pAnim != NULL)
@@ -775,7 +775,7 @@ s32 Monsters_InitMonsters_Aux(u32 nNoSlotMst, u32 nNoMst, u64 *pAnim, u64 nAnimN
     gMst[nNoSlotMst].nProperty=nProperty;
     gMst[nNoSlotMst].nName=nName;
     gMst[nNoSlotMst].bCollidePlyr=false;
-    
+
     return nNoSlotMst;
 }
 
