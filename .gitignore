@@ -1,0 +1,15 @@
+# DOSSIERS
+_gfx-divers/
+
+# IDE - VSCODE
+.vscode/*
+
+# FICHIERS .o
+*.o
+*.pdb
+*.txt
+*.mp4
+*.trec
+
+# EXECUTABLE
+*.exe
