@@ -89,6 +89,8 @@ void Game_MstRecalage(SMonster* pMst);
 // Test si le monstre à une anim. Retourne dans tous les cas un n° de sprites.
 // Utilisation de Animspr_GetImgLast dans la fonction.
 u32 Monsters_IfHasAnAnim(u32 nIdx);
+// Collision Monstre avec le Joueur.
+void Monster_CollidePlyr(void);
 // Si le perso est tué => on fait une init de fin, les monstres sont mit en idle.
 void Monsters_InitOfEnd(void);
 void Monsters_CollideMonster(u32 nIdxMst);
