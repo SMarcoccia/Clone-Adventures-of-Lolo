@@ -58,136 +58,6 @@ void Game_MstRecalage(SMonster* pMst){
     }
 }
 
-//bool Monsters_CollideDecor(u32 nIdx, u32 nLvl)
-//{
-//    // nColMin correspond au sprite coin supérieur gauche
-//    // nColMax correspond au sprite coin supérieur droit
-//    // nLineMin correspond au sprite coin supérieur gauche
-//    // nLineMax correspond au sprite coin inférieur gauche
-    
-//    // Coordonnées min et max du monstre en pixels
-//    s32 nXMin=gMst[nIdx].nPosX >> 8;
-//    s32 nXMax=(gMst[nIdx].nPosX >> 8)+SPR_SIZE-1;
-//    s32 nYMin=gMst[nIdx].nPosY >> 8;
-//    s32 nYMax=(gMst[nIdx].nPosY >> 8)+SPR_SIZE-1;
-//    // Position du monstreau centre
-//    s32 nMX=nXMin+SPR_SIZE/2;
-//    s32 nMY=nXMin+SPR_SIZE/2;
-
-//    // Coordonnées min et max du Monstre en bloc
-//    u32 nBlkXMin=nXMin >> 4;
-//    u32 nBlkYMin=nYMin >> 4;
-//    u32 nBlkXMax=nXMax >> 4;
-//    u32 nBlkYMax=nYMax >> 4;
-
-//    // Coordonnées du solide en pixel
-//    s32 nSX=0;
-//    s32 nSY=0;
-    
-//    //if((gMst[nIdx].nPosY & 0xF00) != 0 && ((gMst[nIdx].nPosX & 0xF00) != 0 || (gMst[nIdx].nPosX & 0xF00) != 0)) return false;
-    
-//    // Position du coffre en-dessous
-//    // Chest to right ?
-//    if(gArea[(nBlkYMin+1)*AREA_WIDTH + nBlkXMin].isSolid){ // && != de wall
-//        info_context lf
-//        nSX=gArea[(nBlkYMin+1)*AREA_WIDTH + nBlkXMin].nBlkX << 4;
-//        nSY=gArea[(nBlkYMin+1)*AREA_WIDTH + nBlkYMin].nBlkY << 4;
-//    // Chest to left ?
-//    }else if (gArea[(nBlkYMin+1)*AREA_WIDTH + nBlkXMax].isSolid){
-//        info_context lf        
-//        nSX=gArea[(nBlkYMin+1)*AREA_WIDTH + nBlkXMax].nBlkX << 4;
-//        nSY=gArea[(nBlkYMin+1)*AREA_WIDTH + nBlkYMax].nBlkY << 4;
-//    }
-//    // Position du coffre au-dessus    
-//    // Chest to right ?
-//    else if (gArea[(nBlkYMin-1)*AREA_WIDTH + nBlkXMin].isSolid){
-//        info_context lf        
-//        nSX=gArea[(nBlkYMin-1)*AREA_WIDTH + nBlkXMax].nBlkX << 4;
-//        nSY=gArea[(nBlkYMin-1)*AREA_WIDTH + nBlkYMax].nBlkY << 4;
-//    // Chest to left ?
-//    }else if (gArea[(nBlkYMin-1)*AREA_WIDTH + nBlkXMax].isSolid){
-//        info_context lf        
-//        nSX=gArea[(nBlkYMin-1)*AREA_WIDTH + nBlkXMax].nBlkX << 4;
-//        nSY=gArea[(nBlkYMin-1)*AREA_WIDTH + nBlkYMax].nBlkY << 4;
-//    }
-    
-//    info_context printf("nSX %d, nSY %d, nMX %d, nMY %d", nSX, nSY, nMX, nMY);lf
-    
-//    // Position du solide au centre
-//    nSX+=SPR_SIZE/2;
-//    nSY+=SPR_SIZE/2;
-
-//    // Si direction Left :
-//    u32 nColMin = gMst[nIdx].nPosX >> 12;
-//    // Si direction Right :
-//    u32 nColMax = ((gMst[nIdx].nPosX >> 8)+SPR_SIZE) >> 4;
-//    // Si direction Up :
-//    u32 nLineMin = gMst[nIdx].nPosY >> 12;
-//    // Si direction Bottom :
-//    u32 nLineMax = ((gMst[nIdx].nPosY >> 8)+SPR_SIZE) >> 4;
-
-
-//        info_context printf("gArea[%d*%d + %d].nType %d == e_Area_Border", (nSY >> 4), AREA_WIDTH, (nSX >> 4), gArea[(nSY >> 4)*AREA_WIDTH + (nSX >> 4)].nType);lf
-//        if((gArea[(nSY >> 4)*AREA_WIDTH + (nSX >> 4)].nType == e_Area_Border || gArea[(nSY >> 4)*AREA_WIDTH + (nSX >> 4)].nType == e_Area_Ground)) return false;
-    
-//        if(gMst[nIdx].nName==e_Mst_Rocky){
-//            info_context printf("gMst[nIdx].nDir %d, nSX %d, nSY %d, nMX %d, nMY %d", gMst[nIdx].nDir, nSX, nSY, nMX, nMY);lf
-//        }
-//        switch (gMst[nIdx].nDir)
-//        {
-//            case e_Dir_Down:
-//                if(gMst[nIdx].nName==e_Mst_Rocky){
-//                    info_context printf("type %d, gArea[%d*%d + %d].isSolid  %d != 0", gArea[(nSY >> 4)*AREA_WIDTH + (nSX >> 4)].nType, nSY >> 4, AREA_WIDTH, nSX >> 4, gArea[(nSY >> 4)*AREA_WIDTH + (nSX >> 4)].isSolid); lf
-//                }
-//                // On test si on est sur une case solide :
-//                //(gMst[nIdx].nPosX & 0xF00) == 0x800
-//                if (gArea[(nSY >> 4)*AREA_WIDTH + (nSX >> 4)].isSolid != 0)
-//                {
-//                    info_context lf
-//                    gMst[nIdx].nPosY=nYMin << 8;
-//                    gMst[nIdx].nDir=e_Dir_Right;
-//                }
-//                break;
-//            case e_Dir_Left:
-//                info_context lf
-//                if (gArea[(nSY >> 4)*AREA_WIDTH + (nSX >> 4)].isSolid != 0)
-//                {
-//                    gMst[nIdx].nPosX=nXMin << 8;
-//                    gMst[nIdx].nDir=e_Dir_Down;
-//                }
-//                break;
-//            case e_Dir_Up:
-//                info_context lf
-//                // On regarde la case au-dessus.
-//                //if (gArea[(nSY >> 4)*AREA_WIDTH + (nSX >> 4)].isSolid != 0 || (gMst[nIdx].nPosX & 0xF00) == 0x800)
-//                info_context printf("type %d, gArea[%d*%d + %d].isSolid  %d != 0", gArea[(nSY >> 4)*AREA_WIDTH + (nSX >> 4)].nType, nSY >> 4, AREA_WIDTH, nSX >> 4, gArea[(nSY >> 4)*AREA_WIDTH + (nSX >> 4)].isSolid); lf
-
-//                if (gArea[(nSY >> 4)*AREA_WIDTH + (nSX >> 4)].isSolid != 0 || gArea[(nSY >> 4)*AREA_WIDTH + ((gMst[nIdx].nPosX + 0x800) >> 12)].isSolid != 0)
-//                {
-//                    info_context lf
-//                    gMst[nIdx].nPosY=nYMin << 8;
-//                    gMst[nIdx].nDir=e_Dir_Left;
-//                }
-//                break;
-//            case e_Dir_Right:
-//                info_context lf
-//                if (gArea[(nSY >> 4)*AREA_WIDTH + (nSX >> 4)].isSolid != 0)
-//                {
-//                    gMst[nIdx].nPosX=nXMin << 8;
-//                    gMst[nIdx].nDir=e_Dir_Up;
-//                }
-//                break;
-//        }
-    
-//    //else
-//    //{
-//    //    gMst[nIdx].nState=e_MstAnim_Idle;
-//    //    gMst[nIdx].nSpeed=MST_SPEED_NOT;        
-//    //}
-    
-//    return true;
-//}
-
 bool Monsters_CollideDecor(u32 nIdx, u32 nLvl)
 {
     //s32 nPosX=gMst[nIdx].nPosX >> 8;
@@ -290,6 +160,15 @@ void Monsters_InitOfEnd(void)
     }
 }
 
+void Monsters_ClearSlot(void)
+{
+    for (int i = 0; i < MST_MAX_SLOTS; i++)
+    {
+        gMst[i].nUsed = false;
+    }
+    gnMstLastSlotUsed=0;    
+}
+
 // TODO : faire avec la comparaison avec les cases.
 void Monsters_CollideWalls(u32 nIdx)
 {
@@ -324,134 +203,63 @@ void Monsters_CollideWalls(u32 nIdx)
     }
 }
 
-void Monsters_ClearSlot(void)
-{
+void Monster_CollidePlyr(void){
+        // Position Plyr au Centre du sprite en pixel.
+    s32 nPX=(gPlyr.nPosX  + 0x800) >> 8; 
+    s32 nPY=(gPlyr.nPosY  + 0x800) >> 8;    
+
+    // Position d'un bloc dans le jeu, pour rechercher s'il y a un obstacle après ou avant le Plyr.
+    u32 nPBlkX=nPX >> 4;
+    u32 nPBlkY=0;
+    u32 nPBlkFullY=0;
+
+    // Position Mst en pixel.
+    s32 nMX = 0;
+    s32 nMY = 0;
+
+    u32 nMBlkX=0;
+    u32 nMBlkY=0;
+    u32 nMBlkFullY=0;
+
+    // Coordonnées en pixel du solide.
+    s32 nSX=0;
+    s32 nSY=0;
+
     for (int i = 0; i < MST_MAX_SLOTS; i++)
     {
-        gMst[i].nUsed = false;
-    }
-    gnMstLastSlotUsed=0;    
+        if(gMst[i].nUsed)
+        {
+            if(gMst[i].nProperty == e_Mst_Harmless)
+            {
+                if(gMst[i].nName == e_Mst_Rocky)
+                {
+                    info_context lf
+                    nMX=(gMst[i].nPosX + 0x800) >> 8;
+                    nMY=(gMst[i].nPosY + 0x800) >> 8;
+                    info_context printf("gMst[i].nPosX %d, nMX %d, nMY %d", gMst[i].nPosX, nMX, nMY);lf
+                    nMBlkX=nMX >> 4;
+
+                    if (abs(nPX-nMX) <= SPR_SIZE*2 && abs(nPY-nMY) <= SPR_SIZE/2)
+                    {
+                        info_context lf
+                        if(
+                               ((gMst[i].nPosX & 0xF00) == 0 || (gMst[i].nPosX & 0xF00) == 0x800)
+                            && ((gMst[i].nPosY & 0xF00) == 0 || (gMst[i].nPosY & 0xF00) == 0x800)
+                        ){
+                            info_context lf
+                            gMst[i].nState=e_MstAnim_Idle;
+                            gMst[i].nSpeed=MST_SPEED_NOT;
+                        }
+                    }
+                }
+            }
+        }
+    } 
 }
-/*
-//void Monsters_MonstersMove(u32 nLvl)
-//{
-//    u64 *pAnims[][4]={
-//        {gAnim_Alma_Walk_Down, gAnim_Alma_Walk_Left, gAnim_Alma_Walk_Up, gAnim_Alma_Walk_Right},
-//        {gAnim_Leeper_Jumping_Down, gAnim_Leeper_Jumping_Left, gAnim_Leeper_Jumping_Up, gAnim_Leeper_Jumping_Right},
-//        {gAnim_Rocky_Walk_Down, gAnim_Rocky_Walk_Left, gAnim_Rocky_Walk_Up, gAnim_Rocky_Walk_Right},
-//        {gAnim_Skull_Move_Down, gAnim_Skull_Move_Left, gAnim_Skull_Move_Up, gAnim_Skull_Move_Right},
-//        {gAnim_DonMedusa_Move, gAnim_DonMedusa_Move, gAnim_DonMedusa_Move, gAnim_DonMedusa_Move},
-//    };
 
-//    for (u32 i = 0; i < MST_MAX_SLOTS; i++)
-//    {
-//        // En début de partie le player est en état idle les monstre aussi, quand le joueur bougera la première fois les
-//        // monstres bougeront.
-//        gMst[i].nLastPosX=gMst[i].nPosX;
-//        gMst[i].nLastPosY=gMst[i].nPosY;
-        
-//        if(gGen.nIsStartPlyr == true && gMst[i].nUsed == true)
-//        {
-//            if(gMst[i].pAnim != NULL && gMst[i].nState==e_MstAnim_Walk)
-//            {
-//                if(gMst[i].nDir == e_Dir_Down)
-//                {
-//                    if(gMst[i].bCollidePlyr && ((gMst[i].nPosY & 0xF00) != 0 || (gMst[i].nPosY & 0xF00) != 0x800)){
-//                        gMst[i].nPosY+=gMst[i].nSpeed;
-//                    }else if(gMst[i].bCollidePlyr && ((gMst[i].nPosY & 0xF00) == 0 || (gMst[i].nPosY & 0xF00) == 0x800)){
-//                        //gMst[i].nPosY+=gMst[i].nSpeed;
-//                        gMst[i].nState=e_MstAnim_Idle;
-//                        gMst[i].nSpeed=MST_SPEED_NOT;
-//                    }else if( ! gMst[i].bCollidePlyr){
-//                        gMst[i].nPosY+=gMst[i].nSpeed;
-//                    }
-//                    //info_context printf("DOWN gMst[i].nPosY %d, gMst[i].nPosY >> 8 : %d", gMst[i].nPosY, gMst[i].nPosY >> 8);lf
-//                }
-//                if(gMst[i].nDir == e_Dir_Left)
-//                {
-//                    if(gMst[i].bCollidePlyr && ((gMst[i].nPosX & 0xF00) != 0 || (gMst[i].nPosX & 0xF00) != 0x800)){
-//                        gMst[i].nPosX-=gMst[i].nSpeed;
-//                    }else if(gMst[i].bCollidePlyr && ((gMst[i].nPosX & 0xF00) == 0 || (gMst[i].nPosX & 0xF00) == 0x800)){
-//                        //gMst[i].nPosX-=gMst[i].nSpeed;
-//                        gMst[i].nState=e_MstAnim_Idle;
-//                        gMst[i].nSpeed=MST_SPEED_NOT;
-//                    }else if( ! gMst[i].bCollidePlyr){
-//                        gMst[i].nPosX-=gMst[i].nSpeed;
-//                    }
-//                    //info_context printf("LEFT gMst[i].nPosX %d, gMst[i].nPosX >> 8 : %d", gMst[i].nPosX, gMst[i].nPosX >> 8);lf
-//                }
-//                if(gMst[i].nDir == e_Dir_Up)
-//                {
-//                    if(gMst[i].bCollidePlyr && ((gMst[i].nPosY & 0xF00) != 0 || (gMst[i].nPosY & 0xF00) != 0x800)){
-//                        gMst[i].nPosY-=gMst[i].nSpeed;
-//                    }else if(gMst[i].bCollidePlyr && ((gMst[i].nPosY & 0xF00) == 0 || (gMst[i].nPosY & 0xF00) == 0x800)){
-//                        //gMst[i].nPosY-=gMst[i].nSpeed;
-//                        gMst[i].nState=e_MstAnim_Idle;
-//                        gMst[i].nSpeed=MST_SPEED_NOT;
-//                    }else if( ! gMst[i].bCollidePlyr){
-//                        gMst[i].nPosY-=gMst[i].nSpeed;
-//                    }
-//                }
-//                if(gMst[i].nDir == e_Dir_Right)
-//                {
-//                    info_context printf("gMst[i].bCollidePlyr %d && ((gMst[i].nPosX & 0xF00) %d != 0 && (gMst[i].nPosX & 0xF00) %d != 0x800)", gMst[i].bCollidePlyr, (gMst[i].nPosX & 0xF00), (gMst[i].nPosX & 0xF00)); lf
-//                    if(gMst[i].bCollidePlyr && ((gMst[i].nPosX & 0xF00) != 0 && (gMst[i].nPosX & 0xF00) != 0x800)){
-//                        gMst[i].nPosX+=gMst[i].nSpeed;
-//                        info_context lf
-//                    }else if(gMst[i].bCollidePlyr && ((gMst[i].nPosX & 0xF00) == 0 || (gMst[i].nPosX & 0xF00) == 0x800)){
-//                        //gMst[i].nPosX+=gMst[i].nSpeed;
-//                        info_context lf
-//                        gMst[i].nState=e_MstAnim_Idle;
-//                        gMst[i].nSpeed=MST_SPEED_NOT;
-//                    }else if( ! gMst[i].bCollidePlyr){
-//                        info_context lf
-//                        gMst[i].nState=e_MstAnim_Walk;
-//                        gMst[i].nSpeed=MST_SPEED_INIT;
-//                        gMst[i].nPosX+=gMst[i].nSpeed;
-//                    }
-//                }
-//                Animspr_AnimSetIfNew(pAnims[gMst[i].nName][gMst[i].nDir], gMst[i].nAnimNoSlot);
-//            // Si rock est en collision avec le plyr
-//            }else{ 
-//                u64 *nDir=NULL;
-
-//                switch (gMst[i].nDir)
-//                {
-//                    case e_Dir_Down:
-//                        nDir=gAnim_Rocky_Idle_Down;
-//                        break;
-//                    case e_Dir_Left:
-//                        nDir=gAnim_Rocky_Idle_Left;
-//                        break;
-//                    case e_Dir_Right:
-//                        nDir=gAnim_Rocky_Idle_Right;
-//                        break;
-//                    case e_Dir_Up:
-//                        nDir=gAnim_Rocky_Idle_Up;
-//                        break;
-//                }
-//                Animspr_AnimSet(nDir, gMst[i].nAnimNoSlot);
-//            }
-//            // Ici on met bien en dernier le test sinon dépassement de mémoire. Sinon voir en faisant un split du sprite.
-//            Monsters_CollideWalls(i); 
-//            Monsters_CollideDecor(i, gGen.nLevel); // Génère un blocage au départ avec une vitesse de 0x80
-//            Sprites_Stock(Monsters_IfHasAnAnim(i), gMst[i].nPosX >> 8, gMst[i].nPosY >> 8, e_Prio_Monsters);
-//        }
-//    } 
-//}
-*/
 
 void Monsters_MonstersMove(u32 nLvl)
 {
-    ////info_context lf
-    //u64 *pAnims[][4]={
-    //    {gAnim_Alma_Walk_Down, gAnim_Alma_Walk_Left, gAnim_Alma_Walk_Up, gAnim_Alma_Walk_Right},
-    //    {gAnim_Leeper_Jumping_Down, gAnim_Leeper_Jumping_Left, gAnim_Leeper_Jumping_Up, gAnim_Leeper_Jumping_Right},
-    //    {gAnim_Rocky_Walk_Down, gAnim_Rocky_Walk_Left, gAnim_Rocky_Walk_Up, gAnim_Rocky_Walk_Right},
-    //    {gAnim_Skull_Move_Down, gAnim_Skull_Move_Left, gAnim_Skull_Move_Up, gAnim_Skull_Move_Right},
-    //    {gAnim_DonMedusa_Move, gAnim_DonMedusa_Move, gAnim_DonMedusa_Move, gAnim_DonMedusa_Move},
-    //};
-
     s32 nBlkX=0;
     s32 nBlkY=0;
 
@@ -645,6 +453,7 @@ void Monsters_MonstersMove(u32 nLvl)
             // Ici on met bien en dernier le test sinon dépassement de mémoire. Sinon voir en faisant un split du sprite.
             Monsters_CollideWalls(i); 
             Monsters_CollideDecor(i, gGen.nLevel); // Génère un blocage au départ avec une vitesse de 0x80
+            Monster_CollidePlyr();
             Sprites_Stock(Monsters_IfHasAnAnim(i), gMst[i].nPosX >> 8, gMst[i].nPosY >> 8, e_Prio_Monsters);
             //info_context printf("gMst[i].nPosY %d", gMst[i].nPosY);lf
         }
@@ -670,56 +479,6 @@ void Monster_Recalage(struct SMonster *pMst, u32 nLastPosX, u32 nLastPosY)
 		break;
 	}
 }
-
-//void Monsters_MonstersMove(u32 nLvl)
-//{
-//    info_context lf
-//    u64 *pAnims[][4]={
-//        {gAnim_Alma_Walk_Down, gAnim_Alma_Walk_Left, gAnim_Alma_Walk_Up, gAnim_Alma_Walk_Right},
-//        {gAnim_Leeper_Jumping_Down, gAnim_Leeper_Jumping_Left, gAnim_Leeper_Jumping_Up, gAnim_Leeper_Jumping_Right},
-//        {gAnim_Rocky_Walk_Down, gAnim_Rocky_Walk_Left, gAnim_Rocky_Walk_Up, gAnim_Rocky_Walk_Right},
-//        {gAnim_Skull_Move_Down, gAnim_Skull_Move_Left, gAnim_Skull_Move_Up, gAnim_Skull_Move_Right},
-//        {gAnim_DonMedusa_Move, gAnim_DonMedusa_Move, gAnim_DonMedusa_Move, gAnim_DonMedusa_Move},
-//    };
-
-//    for (u32 i = 0; i < MST_MAX_SLOTS; i++)
-//    {
-//        // En début de partie le player est en état idle les monstre aussi, quand le joueur bougera la première fois les
-//        // monstres bougeront.
-                
-//        if(gGen.nIsStartPlyr && gMst[i].nUsed)
-//        {
-//            if(gMst[i].nName==e_Mst_Rocky){
-//                info_context lf
-//            }
-
-//            gMst[i].nState=e_MstAnim_Walk;
-
-//            switch (gMst[i].nDir)
-//            {
-//            case e_Dir_Up:
-//                gMst[i].nPosY-=gMst[i].nSpeed;
-//                break;
-//            case e_Dir_Right:
-//                gMst[i].nPosX+=gMst[i].nSpeed;
-//                break;
-//            case e_Dir_Down:
-//                gMst[i].nPosY+=gMst[i].nSpeed;
-//                break;
-//            case e_Dir_Left:
-//                gMst[i].nPosX-=gMst[i].nSpeed;
-//                break;
-            
-//            }
-
-//            Animspr_AnimSetIfNew(pAnims[gMst[i].nName][gMst[i].nDir], gMst[i].nAnimNoSlot);
-
-//            Monsters_CollideWalls(i); 
-//            Monsters_CollideDecor(i, gGen.nLevel); // Génère un blocage au départ avec une vitesse de 0x80
-//            Sprites_Stock(Monsters_IfHasAnAnim(i), gMst[i].nPosX >> 8, gMst[i].nPosY >> 8, e_Prio_Monsters);
-//        }
-//    } 
-//}   
 
 void Monsters_Manage(void)
 {
