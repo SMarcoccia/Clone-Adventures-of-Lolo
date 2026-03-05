@@ -165,9 +165,6 @@ void Game_CaseToPos(void);
 void Game_InitLevel(u32 nLvl);
 // Dessine le bkg + décor.
 void LoloAdventureDraw(void); 
-// Test collision joueur-monstre.
-// nOldPosX & nOldPosY : dernière position du joueur
-void Game_CollidePlyrMsts(void);
 // Test collision joueur et un item (coeur, bloc, egg).
 void Game_CollidePlyrItem(u32 nLvl);
 // Test collision entre le joueur et le décore.
@@ -200,3 +197,6 @@ void Game(void);
 // Test si le joueur peut se déplacer dans la direction demandée. Utilisé pour les murs et le décore pas pour les items (coeurs, blocs, eggs, ...)
 // Out : true = déplacement ok, false = ne doit pas gouger.
 bool Game_PlyrCheckDepl(SPlayer *pPlyr, u32 nDir);
+// Collision entre le Joueur et le Monstre en cours de remplacement par Monster_CollidePlyr et Game_CollideMst
+void Game_CollidePlyrMsts(s32 nPlyrLastPosX, s32 nPlyrLastPosY);
+
