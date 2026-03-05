@@ -1,6 +1,5 @@
 
 /*TODO : 
-    Afficher modularité son tableau de sprites.
     Quand on clique avant la fin du fadeout se remet sur le menu.
     Faire une machine à état pour affichage du volume du son.
     Dans fade.c a revoir fade sfx pour passé à 0 peut importe le volume.
@@ -8,6 +7,8 @@
 */
 
 #include "includes.h"
+
+struct SGen gGen;
 
 int main(int argc, char **argv)
 {
