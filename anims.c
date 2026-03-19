@@ -173,14 +173,45 @@ u64 gAnim_Plyr_Death[]={
 
 /* *********************** MONSTERS : ***********************/
 
+/*************** SNAKEY : ***************/
+
+u64 gAnim_Snakey_Stand_Left[]={
+    e_AnimKey_MstIdle,
+    65000, e_Spr_Snakey_Stand_Left,
+    e_Anim_Jump, (u64)-2    
+};
+
+u64 gAnim_Snakey_Rotate_Left[]={
+    e_AnimKey_MstIdle,
+    65000, e_Spr_Snakey_Rotate_Left,
+    e_Anim_Jump, (u64)-2    
+};
+
+u64 gAnim_Snakey_Stand_Right[]={
+    e_AnimKey_MstIdle,
+    65000, e_Spr_Snakey_Stand_Right,
+    e_Anim_Jump, (u64)-2    
+};
+
+u64 gAnim_Snakey_Rotate_Right[]={
+    e_AnimKey_MstIdle,
+    65000, e_Spr_Snakey_Rotate_Right,
+    e_Anim_Jump, (u64)-2    
+};
+
+// Si le joueur est vainqueur
 u64 gAnim_Snakey_WinPlyr[]={
     e_AnimKey_Null,
+    6, e_Spr_Snakey_Stand_Left,
     6, e_Spr_Snakey_Rotate_Left,
+    6, e_Spr_Snakey_Stand_Left,
+    6, e_Spr_Snakey_Stand_Right,
     6, e_Spr_Snakey_Rotate_Right,
+    6, e_Spr_Snakey_Stand_Right,
     e_Anim_Goto, (u64) gAnim_Snakey_WinPlyr
 }; 
 
-/*************** Alma : ***************/
+/*************** ALMA : ***************/
 // Idle :
 u64 gAnim_Alma_Idle_Down[]={
     e_AnimKey_MstIdle,
@@ -283,7 +314,7 @@ u64 gAnim_Leeper_Idle_Right[]={
     e_Anim_Jump, (u64)-2
 };  
 
-// Jumping
+// Jumping (pareille que walk)
 u64 gAnim_Leeper_Jumping_Down[]={
     e_AnimKey_Null,
     3, e_Spr_Leeper_Down_Stand,
@@ -470,6 +501,51 @@ u64 gAnim_Skull_Move_Right[]={
 
 
 /*************** Gol : ***************/
+
+// Sleeping
+u64 gAnim_Gol_Sleeping_Down[]={
+    e_AnimKey_MstIdle,
+    65000, e_Spr_Gol_Sleeping_Down,
+    e_Anim_Jump, (u64)-2
+};
+u64 gAnim_Gol_Sleeping_Left[]={
+    e_AnimKey_MstIdle,
+    65000, e_Spr_Gol_Sleeping_Left,
+    e_Anim_Jump, (u64)-2
+};
+u64 gAnim_Gol_Sleeping_Up[]={
+    e_AnimKey_MstIdle,
+    65000, e_Spr_Gol_Sleeping_Up,
+    e_Anim_Jump, (u64)-2
+}; 
+u64 gAnim_Gol_Sleeping_Right[]={
+    e_AnimKey_MstIdle,
+    65000, e_Spr_Gol_Sleeping_Right,
+    e_Anim_Jump, (u64)-2
+};
+
+// Awake
+u64 gAnim_Gol_Awake_Down[]={
+    e_AnimKey_MstIdle,
+    65000, e_Spr_Gol_Wake_Down,
+    e_Anim_Jump, (u64)-2
+};
+u64 gAnim_Gol_Awake_Right[]={
+    e_AnimKey_MstIdle,
+    65000, e_Spr_Gol_Wake_Left,
+    e_Anim_Jump, (u64)-2
+};
+u64 gAnim_Gol_Awake_Up[]={
+    e_AnimKey_MstIdle,
+    65000, e_Spr_Gol_Wake_Up,
+    e_Anim_Jump, (u64)-2
+};
+u64 gAnim_Gol_Awake_Left[]={
+    e_AnimKey_MstIdle,
+    65000, e_Spr_Gol_Wake_Right,
+    e_Anim_Jump, (u64)-2
+};
+
 // Shot
 u64 gAnim_Gol_Shot_Down[]={
     e_AnimKey_Null,
@@ -530,6 +606,22 @@ u64 gAnim_Gol_ShotCollide_Left[]={
     e_Anim_End    
 };   
 
+/*************** Medusa : ******************/
+
+// Idle :
+u64 gAnim_Medusa_Face[]={
+    e_AnimKey_MstIdle,
+    65000, e_Spr_DonMedusa_Stand,
+    e_Anim_Jump, (u64)-2
+};    
+
+// Attaque :
+u64 gAnim_Medusa_Attack[]={
+    e_AnimKey_MstIdle,
+    65000, e_Spr_Medusa_Attack,
+    e_Anim_Jump, (u64)-2
+};    
+
 /*************** DonMedusa : ***************/
 // Used for top, bottom, left and right.
 
@@ -546,6 +638,58 @@ u64 gAnim_DonMedusa_Move[]={
     6, e_Spr_DonMedusa_Move,
     e_Anim_Goto, (u64)gAnim_DonMedusa_Move
 };
+
+/*************** Whale : ***************/
+
+u64 gAnim_Whale_Face_Up[]={
+    e_AnimKey_MstIdle,
+    65000, e_Spr_Whale_Stand_Up,
+    e_Anim_Jump, (u64)-2    
+}; 
+
+u64 gAnim_Whale_Face_Right[]={
+    e_AnimKey_MstIdle,
+    65000, e_Spr_Whale_Stand_Right,
+    e_Anim_Jump, (u64)-2    
+};
+
+u64 gAnim_Whale_Face_Down[]={
+    e_AnimKey_MstIdle,
+    65000, e_Spr_Whale_Stand_Down,
+    e_Anim_Jump, (u64)-2    
+};
+
+u64 gAnim_Whale_Face_Left[]={
+    e_AnimKey_MstIdle,
+    65000, e_Spr_Whale_Stand_Left,
+    e_Anim_Jump, (u64)-2    
+};
+
+// Attack
+u64 gAnim_Whale_Attack_Up[]={
+    e_AnimKey_MstIdle,
+    65000, e_Spr_Whale_Suck_Up,
+    e_Anim_Jump, (u64)-2    
+};
+
+u64 gAnim_Whale_Attack_Right[]={
+    e_AnimKey_MstIdle,
+    65000, e_Spr_Whale_Suck_Right,
+    e_Anim_Jump, (u64)-2    
+};
+
+u64 gAnim_Whale_Attack_Down[]={
+    e_AnimKey_MstIdle,
+    65000, e_Spr_Whale_Suck_Down,
+    e_Anim_Jump, (u64)-2    
+};
+
+u64 gAnim_Whale_Attack_Left[]={
+    e_AnimKey_MstIdle,
+    65000, e_Spr_Whale_Suck_Left,
+    e_Anim_Jump, (u64)-2    
+};
+
 
 /*************** Divers : ***************/
 // Egg

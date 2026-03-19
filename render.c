@@ -1,7 +1,5 @@
 #include "includes.h"
 
-SGen gGen;
-
 void Render_ModeVideo2x(void)
 {
     u8 *pix2x=gRender.pScreen2x->pixels;
@@ -131,7 +129,7 @@ void Render_SetModeVideo(void)
     }
 }
 
-void Render_Flip()
+void Render_Flip(void)
 {
     typedef void (*pPtrFctModeVideo) (void);
     static pPtrFctModeVideo pFctModeVideo[e_ModeVideo_MAX] = {NULL, Render_ModeVideo2x, Render_ModeVideoResize};

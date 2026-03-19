@@ -59,6 +59,12 @@ extern u64 gAnim_Plyr_Death[]; // Animation player quand il meurt.
 // MONSTERS :
 
 /*************** Snakey : ***************/
+
+extern u64 gAnim_Snakey_Stand_Left[];
+extern u64 gAnim_Snakey_Rotate_Left[];
+extern u64 gAnim_Snakey_Stand_Right[];
+extern u64 gAnim_Snakey_Rotate_Right[];
+// Si Victoire du jouer
 extern u64 gAnim_Snakey_WinPlyr[];
 
 /*************** Alma : ***************/
@@ -117,6 +123,18 @@ extern u64 gAnim_Skull_Move_Up[];
 extern u64 gAnim_Skull_Move_Right[];
 
 /*************** Gol : ***************/
+// Sleeping
+extern u64 gAnim_Gol_Sleeping_Down[];
+extern u64 gAnim_Gol_Sleeping_Left[];
+extern u64 gAnim_Gol_Sleeping_Up[]; 
+extern u64 gAnim_Gol_Sleeping_Right[];
+
+// Awake
+extern u64 gAnim_Gol_Awake_Down[];
+extern u64 gAnim_Gol_Awake_Right[];
+extern u64 gAnim_Gol_Awake_Up[];
+extern u64 gAnim_Gol_Awake_Left[];
+
 // Shot
 extern u64 gAnim_Gol_Shot_Down[];
 extern u64 gAnim_Gol_Shot_Right[];
@@ -131,6 +149,23 @@ extern u64 gAnim_Gol_ShotCollide_Left[];
 /*************** DonMedusa : ***************/
 extern u64 gAnim_DonMedusa_Idle_Down[];
 extern u64 gAnim_DonMedusa_Move[]; // For top to bottom and left of right.
+
+/*************** Medusa : ***************/
+extern u64 gAnim_Medusa_Face[];
+extern u64 gAnim_Medusa_Attack[];
+
+/*************** whale : ***************/
+// Face
+extern u64 gAnim_Whale_Face_Down[];
+extern u64 gAnim_Whale_Face_Left[];
+extern u64 gAnim_Whale_Face_Up[]; 
+extern u64 gAnim_Whale_Face_Right[];
+
+// Attack
+extern u64 gAnim_Whale_Attack_Down[];
+extern u64 gAnim_Whale_Attack_Right[];
+extern u64 gAnim_Whale_Attack_Up[];
+extern u64 gAnim_Whale_Attack_Left[];
 
 /*************** Egg : ***************/
 extern u64 gAnim_Egg_DisappearInWater[];
