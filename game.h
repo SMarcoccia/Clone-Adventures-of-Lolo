@@ -16,10 +16,10 @@
 // Enum clavier
 enum EKeyboard{
     e_Kb_Null=0,
-    e_Kb_Up=1,
-    e_Kb_Right=2,
-    e_Kb_Down=4,
-    e_Kb_Left=8,
+    e_Kb_Down=1,
+    e_Kb_Left=2,
+    e_Kb_Up=4,
+    e_Kb_Right=8,
 };
 
 // Direction pour Plyr, Monster. 
@@ -70,6 +70,7 @@ enum ETypeBox{
     e_Area_Ground, // (e_Area_Empty) Sol ou le Plyr peut marcher (sauf pont en bois et pont en pierre, sable).
     e_Area_Sand,   // (e_Area_Empty) Car il ralentit le plyr
     e_Area_Bridge, // (e_Area_Empty) Car disparait dans la lave ou reste dans l'eau.
+    e_Area_Grass,  // (e_Area_Solid pour M) // Les monstre ne peuvent pas aller sur l'herbe.
     e_Area_Stone,  // (e_Area_Solid M et P) Car utilisation avec le marteau donc disparait.
     e_Area_Tree,   // (e_Area_Solid M et P)
     e_Area_Block,  // (e_Area_Solid M et P) Bloc d'émeraude, car se déplace.
@@ -125,6 +126,7 @@ typedef struct SGame{
     u32 nPhase; // Phase du jeu (init, jeu, game over, ...)
     u32 nLevel; // Level en cours et sert aussi pour le level atteint au game over
     u32 nTimerLevelDisplay; // Compteur pour affichage du n° du level
+    bool bSimulKey;
 }SGame;
 
 extern SGame gGame;
@@ -170,7 +172,7 @@ void Game_CollidePlyrItem(u32 nLvl);
 // Test collision entre le joueur et le décore.
 bool Game_CollidePlyrDecor(u32 nLvl);
 // Collision entre 2 sprites. nNoSpr1 et nNoSpr1 sont les numéros de sprites.
-// Gestion collision joueur-murs. Obsolette remplacé par Game_PlyrCheckDepl.
+// Gestion collision joueur-murs. On peut utilisé aussi Game_PlyrCheckDepl.
 bool Game_CollidePlyrWalls(void);
 bool Game_Collide(u32 nNoSpr1, u32 nPosX1, u32 nPosY1, u32 nNoSpr2, u32 nPosX2, u32 nPosY2);
 void Game_InitPlyr(u32 nLvl);
@@ -195,8 +197,8 @@ void Game_ExgExit(u32 nExitCode);
 void Game_ExgBrkInit();
 void Game(void);
 // Test si le joueur peut se déplacer dans la direction demandée. Utilisé pour les murs et le décore pas pour les items (coeurs, blocs, eggs, ...)
-// Out : true = déplacement ok, false = ne doit pas gouger.
+// Out : true = déplacement ok, false = ne doit pas bouger.
 bool Game_PlyrCheckDepl(SPlayer *pPlyr, u32 nDir);
-// Collision entre le Joueur et le Monstre en cours de remplacement par Monster_CollidePlyr et Game_CollideMst
+// Collision entre le Joueur et les Monstres, ici on regarde uniquement si le joueur est en collision avec le monstre.
 void Game_CollidePlyrMsts(s32 nPlyrLastPosX, s32 nPlyrLastPosY);
 
