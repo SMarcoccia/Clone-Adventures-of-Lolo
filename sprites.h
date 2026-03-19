@@ -222,10 +222,11 @@ enum{
     e_Spr_DonMedusa_Stand=e_Spr_Gol_ShotCollide_Left+2,
     e_Spr_DonMedusa_Move=e_Spr_DonMedusa_Stand+1,
     e_Spr_DonMedusa_Sword=e_Spr_DonMedusa_Move+1,
-   
+
+// Medusa
     e_Spr_Medusa_Stand=e_Spr_DonMedusa_Sword+4,
     e_Spr_Medusa_Attack=e_Spr_Medusa_Stand+1,
-    e_Spr_Medusa_Arrows=e_Spr_Medusa_Attack+1,
+    e_Spr_Medusa_Arrows=e_Spr_Medusa_Attack+1, // Rotation pour les directions.
 
 // Whale :
     e_Spr_Whale_Stand_Down=e_Spr_Medusa_Arrows+4,
