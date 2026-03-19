@@ -1,8 +1,144 @@
 
 #include "includes.h"
 
+const bool bAnimSprIsCommentary=false;
+
 SAnim pAnimSlots[ANIM_MAX_SLOT];
 u32 gnAnimLastSlotUsed;
+
+
+
+// Init une anim sur un monstre spécifique.
+// MONSTRE NON STATIQUE
+// ALMA
+void AnimSpr_AlmaAnimInit(SMonster *pMst)
+{
+    u64 *pAnims[][4]={
+        {gAnim_Alma_Idle_Down, gAnim_Alma_Idle_Left, gAnim_Alma_Idle_Up, gAnim_Alma_Idle_Right},
+        {gAnim_Alma_Walk_Down, gAnim_Alma_Walk_Left, gAnim_Alma_Walk_Up, gAnim_Alma_Walk_Right},
+        {gAnim_Alma_Roll_Left, gAnim_Alma_Roll_Right, gAnim_Alma_Roll_Right, gAnim_Alma_Roll_Right},
+    };
+
+    if(pMst->nDir != e_Dir_Null){
+        pMst->nAnimNoSlot=Animspr_AnimSetIfNew(pAnims[pMst->nState][pMst->nDir], pMst->nAnimNoSlot);
+    }    
+}
+// LEEPER
+void AnimSpr_LeeperAnimInit(SMonster *pMst)
+{
+    u64 *pAnims[][4]={
+        {gAnim_Leeper_Idle_Down, gAnim_Leeper_Idle_Left, gAnim_Leeper_Idle_Up, gAnim_Leeper_Idle_Right},
+        {gAnim_Leeper_Jumping_Down, gAnim_Leeper_Jumping_Left, gAnim_Leeper_Jumping_Up, gAnim_Leeper_Jumping_Right},
+        {gAnim_Leeper_Sleeping_Down, gAnim_Leeper_Sleeping_Left, gAnim_Leeper_Sleeping_Up, gAnim_Leeper_Sleeping_Right},
+    };
+    
+    if(pMst->nDir != e_Dir_Null){
+        pMst->nAnimNoSlot=Animspr_AnimSetIfNew(pAnims[pMst->nState][pMst->nDir], pMst->nAnimNoSlot);
+    }    
+}
+// ROCKY
+void AnimSpr_RockyAnimInit(SMonster *pMst)
+{
+    if(bAnimSprIsCommentary) {info_context printf("pMst->nState %d, pMst->nDir %d", pMst->nState, pMst->nDir);lf}
+    u64 *pAnims[][4]={
+        {gAnim_Rocky_Idle_Down, gAnim_Rocky_Idle_Left, gAnim_Rocky_Idle_Up, gAnim_Rocky_Idle_Right},
+        {gAnim_Rocky_Walk_Down, gAnim_Rocky_Walk_Left, gAnim_Rocky_Walk_Up, gAnim_Rocky_Walk_Right},
+    };
+
+    if(pMst->nDir != e_Dir_Null){
+        pMst->nAnimNoSlot=Animspr_AnimSetIfNew(pAnims[pMst->nState][pMst->nDir], pMst->nAnimNoSlot);
+    }    
+}
+// SKULL
+void AnimSpr_SkullAnimInit(SMonster *pMst)
+{
+    u64 *pAnims[][4]={
+        {gAnim_Skull_Idle_Down, gAnim_Skull_Idle_Left, gAnim_Skull_Idle_Up, gAnim_Skull_Idle_Right},
+        {gAnim_Skull_Move_Down, gAnim_Skull_Move_Left, gAnim_Skull_Move_Up, gAnim_Skull_Move_Right},
+    };
+
+    if(pMst->nDir != e_Dir_Null){
+        pMst->nAnimNoSlot=Animspr_AnimSetIfNew(pAnims[pMst->nState][pMst->nDir], pMst->nAnimNoSlot);
+    }    
+}
+// DON MEDUSA
+void AnimSpr_DonMedusaAnimInit(SMonster *pMst)
+{
+    u64 *pAnims[][4]={
+        {gAnim_DonMedusa_Idle_Down, gAnim_DonMedusa_Idle_Down, gAnim_DonMedusa_Idle_Down, gAnim_DonMedusa_Idle_Down},
+        {gAnim_DonMedusa_Move, gAnim_DonMedusa_Move, gAnim_DonMedusa_Move, gAnim_DonMedusa_Move},
+    };
+
+    if(pMst->nDir != e_Dir_Null){
+        pMst->nAnimNoSlot=Animspr_AnimSetIfNew(pAnims[pMst->nState][pMst->nDir], pMst->nAnimNoSlot);
+    }    
+}
+
+// MONSTRES STATIC
+// MEDUSA
+void AnimSpr_MedusaAnimInit(SMonster *pMst)
+{
+    u64 *pAnims[][4]={
+        {gAnim_Medusa_Face, gAnim_Medusa_Face, gAnim_Medusa_Face, gAnim_Medusa_Face}, 
+        {gAnim_Medusa_Attack, gAnim_Medusa_Attack, gAnim_Medusa_Attack, gAnim_Medusa_Attack},
+    };
+    
+    if(pMst->nDir != e_Dir_Null){
+        pMst->nAnimNoSlot=Animspr_AnimSetIfNew(pAnims[pMst->nState][pMst->nDir], pMst->nAnimNoSlot);
+    }  
+}
+
+void AnimSpr_SnakeyAnimInit(SMonster *pMst)
+{
+    u64 *pAnims[][4]={
+        {gAnim_Snakey_Stand_Left, gAnim_Snakey_Rotate_Left, gAnim_Snakey_Stand_Right, gAnim_Snakey_Rotate_Right},
+        {gAnim_Snakey_WinPlyr, gAnim_Snakey_WinPlyr, gAnim_Snakey_WinPlyr, gAnim_Snakey_WinPlyr},
+    };
+    
+    if(pMst->nDir != e_Dir_Null){
+        pMst->nAnimNoSlot=Animspr_AnimSetIfNew(pAnims[pMst->nState][pMst->nDir], pMst->nAnimNoSlot);
+    }  
+}
+
+void AnimSpr_GolAnimInit(SMonster *pMst)
+{
+    u64 *pAnims[][4]={
+        {gAnim_Gol_Sleeping_Down, gAnim_Gol_Sleeping_Left, gAnim_Gol_Sleeping_Up, gAnim_Gol_Sleeping_Right},
+        {gAnim_Gol_Awake_Down, gAnim_Gol_Awake_Left, gAnim_Gol_Awake_Up, gAnim_Gol_Awake_Right},
+    };
+    
+    if(pMst->nDir != e_Dir_Null){
+        pMst->nAnimNoSlot=Animspr_AnimSetIfNew(pAnims[pMst->nState][pMst->nDir], pMst->nAnimNoSlot);
+    }  
+}
+
+void AnimSpr_WhaleAnimInit(SMonster *pMst)
+{
+    u64 *pAnims[][4]={
+        {gAnim_Whale_Face_Down, gAnim_Whale_Face_Left, gAnim_Whale_Face_Up, gAnim_Whale_Face_Right},
+        {gAnim_Whale_Attack_Down, gAnim_Whale_Attack_Left, gAnim_Whale_Attack_Up, gAnim_Whale_Attack_Right}
+    };
+    
+    if(pMst->nDir != e_Dir_Null){
+        pMst->nAnimNoSlot=Animspr_AnimSetIfNew(pAnims[pMst->nState][pMst->nDir], pMst->nAnimNoSlot);
+    }  
+}
+
+// Tableau d'anim des monstres pour init un monstres.
+typedef void (*pAnimInit)(SMonster *pMst);
+pAnimInit gpMstAnimInitTb[]={
+    // Dynamique
+    AnimSpr_AlmaAnimInit,
+    AnimSpr_LeeperAnimInit,
+    AnimSpr_RockyAnimInit,
+    AnimSpr_SkullAnimInit,
+    AnimSpr_DonMedusaAnimInit,
+    // Static
+    AnimSpr_MedusaAnimInit,
+    AnimSpr_SnakeyAnimInit,
+    AnimSpr_GolAnimInit,
+    AnimSpr_WhaleAnimInit
+};
 
 
 u32 Animspr_GetImgLast(u32 nNoSlot)
@@ -57,6 +193,7 @@ s32 Animspr_GetSlot(void)
 // Anim player
 void AnimSpr_PlyrAnimSetIfNew(SPlayer *pPlyr)
 {
+    if(bAnimSprIsCommentary) {info_context lf}
     u64 *pPlyrAnm [e_PlyrAnim_Max][4]={
         {gAnim_Plyr_Idle_Down, gAnim_Plyr_Idle_Left, gAnim_Plyr_Idle_Up, gAnim_Plyr_Idle_Right},
         {gAnim_Plyr_Sleeping_Down, gAnim_Plyr_Sleeping_Left, gAnim_Plyr_Sleeping_Up, gAnim_Plyr_Sleeping_Right},
@@ -72,20 +209,39 @@ void AnimSpr_PlyrAnimSetIfNew(SPlayer *pPlyr)
     }
 }
 
-// Anim monstres
+// Anim monstres // A REVOIR // MANQUE IDLE
 void AnimSpr_MstAnimSetIfNew(SMonster *pMst){
-    u64 *pAnims[][4]={
-        {gAnim_Alma_Walk_Down, gAnim_Alma_Walk_Left, gAnim_Alma_Walk_Up, gAnim_Alma_Walk_Right},
-        {gAnim_Leeper_Jumping_Down, gAnim_Leeper_Jumping_Left, gAnim_Leeper_Jumping_Up, gAnim_Leeper_Jumping_Right},
-        {gAnim_Rocky_Walk_Down, gAnim_Rocky_Walk_Left, gAnim_Rocky_Walk_Up, gAnim_Rocky_Walk_Right},
-        {gAnim_Skull_Move_Down, gAnim_Skull_Move_Left, gAnim_Skull_Move_Up, gAnim_Skull_Move_Right},
-        {gAnim_DonMedusa_Move, gAnim_DonMedusa_Move, gAnim_DonMedusa_Move, gAnim_DonMedusa_Move},
-    };
+    //u64 *pAnims[][4]={
+    //    {gAnim_Alma_Walk_Down, gAnim_Alma_Walk_Left, gAnim_Alma_Walk_Up, gAnim_Alma_Walk_Right},
+    //    {gAnim_Leeper_Jumping_Down, gAnim_Leeper_Jumping_Left, gAnim_Leeper_Jumping_Up, gAnim_Leeper_Jumping_Right},
+    //    {gAnim_Rocky_Walk_Down, gAnim_Rocky_Walk_Left, gAnim_Rocky_Walk_Up, gAnim_Rocky_Walk_Right},
+    //    {gAnim_Skull_Move_Down, gAnim_Skull_Move_Left, gAnim_Skull_Move_Up, gAnim_Skull_Move_Right},
+    //    {gAnim_DonMedusa_Move, gAnim_DonMedusa_Move, gAnim_DonMedusa_Move, gAnim_DonMedusa_Move},
+    //};
+    //u64** pAnims[]={*pAnimsAlma, *pAnimsLeeper, *pAnimsRocky, *pAnimsSkull, *pAnimsDonMedusa};
+    //{info_context printf("pMst->nName %d", pMst->nName);lf}
+    //u64** pAnim=pAnims[pMst->nName];
 
-    if(pMst->nDir != e_Dir_Null){
-        pMst->nAnimNoSlot=Animspr_AnimSetIfNew(pAnims[pMst->nState][pMst->nDir], pMst->nAnimNoSlot);
-    }
+    ////{info_context printf("pMst->nName %d, pMst->nState %d, pMst->nDir %d", pMst->nName, pMst->nState, pMst->nDir);lf}
+    //if(pMst->nDir != e_Dir_Null){
+    //    pMst->nAnimNoSlot=Animspr_AnimSetIfNew(&pAnim[pMst->nState][pMst->nDir], pMst->nAnimNoSlot);
+    //}
 }
+
+//// Anim monstres // A REVOIR // MANQUE IDLE
+//void AnimSpr_MstAnimSetIfNew(SMonster *pMst){
+//    u64 *pAnims[][4]={
+//        {gAnim_Alma_Walk_Down, gAnim_Alma_Walk_Left, gAnim_Alma_Walk_Up, gAnim_Alma_Walk_Right},
+//        {gAnim_Leeper_Jumping_Down, gAnim_Leeper_Jumping_Left, gAnim_Leeper_Jumping_Up, gAnim_Leeper_Jumping_Right},
+//        {gAnim_Rocky_Walk_Down, gAnim_Rocky_Walk_Left, gAnim_Rocky_Walk_Up, gAnim_Rocky_Walk_Right},
+//        {gAnim_Skull_Move_Down, gAnim_Skull_Move_Left, gAnim_Skull_Move_Up, gAnim_Skull_Move_Right},
+//        {gAnim_DonMedusa_Move, gAnim_DonMedusa_Move, gAnim_DonMedusa_Move, gAnim_DonMedusa_Move},
+//    };
+
+//    if(pMst->nDir != e_Dir_Null){
+//        pMst->nAnimNoSlot=Animspr_AnimSetIfNew(pAnims[pMst->nState][pMst->nDir], pMst->nAnimNoSlot);
+//    }
+//}
 
 s32 Animspr_AnimSet(u64 *pAnim, u32 nNoSlot)
 {
