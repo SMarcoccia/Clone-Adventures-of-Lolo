@@ -33,7 +33,7 @@ s16 gLvl1[AREA_WIDTH*AREA_HEIGHT]={
 /* 7*/  -1, -1, -1, -1, 38,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1, 39,  -1, -1, -1, /*159*/
 /* 8*/  -1, -1, -1, -1, 38,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1, 39,  -1, -1, -1, /*179*/
 /* 9*/  -1, -1, -1, -1, 38,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1, 39, 238, -1, -1, /*199*/
-/*10*/  -1, -1, -1, -1, 38,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1, 39, 238, -1, -1, /*219*/
+/*10*/  -1, -1, -1, -1, 38,  1,  1,  5,  1,  1,  1,  1,  1,  1,  1,  1, 39, 238, -1, -1, /*219*/
 /*11*/  -1, -1, -1, -1, 38,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1, 39, 238, -1, -1, /*239*/
 /*12*/  -1, -1, -1, -1, 38,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1, 39,  -1, -1, -1, /*259*/
 /*13*/  -1, -1, -1, -1, 36, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 37,  -1, -1, -1, /*279*/
@@ -83,6 +83,7 @@ SPlyrsLvls gPlyrsLvls[]={
     {gPlyrLvl2, 2},
 };
 
+// Note sur les monstres :
 // Leeper va sur le sable, pas sur l'herbe mais si on le met sur l'herbe ne bouge plus, passe sur les flèches au sol.
 // Skull :
 //  - Va sur passerel, va sur le sable, ne va pas sur le coffre, ne va pas sur l'herbe sauf si on le met sur au milieu de 9 cases, si est sur l'herbe pars de 
@@ -103,37 +104,6 @@ SPlyrsLvls gPlyrsLvls[]={
 //    on meurt. Block le pousse.       
 // perso protégé des alma si est sur le coffre
 // Conversion de toutes les Case : non solide (0), items et décore (1), les murs (2), -1 pas de sprite.
-
-//void Levels_NoSprToCaseSolid(void)
-//{
-//    for (u32 i = 0; i < AREA_WIDTH*AREA_HEIGHT; i++){
-
-//        if (gArea[i] != -1){
-            
-//            if(gArea[i] != e_Spr_Lolo_Down_Stand && gArea[i] != e_Spr_Player_Shoot_Left && gArea[i] != e_Spr_Square){
-//                if((gArea[i] == e_Spr_Ground || gArea[i] == e_Spr_Ground+1) || (gArea[i] >= e_Spr_Footbridge && gArea[i] < e_Spr_Door) || (gArea[i] >=e_Spr_Sand_End && gArea[i] < e_Spr_Snakey_Stand_Left)){
-//                    gArea[i].=e_Case_NoSolid;
-//                }else if(
-//                    (gArea[i] >= e_Spr_Stone && gArea[i] < e_Spr_Hammer) || 
-//                    (gArea[i] >= e_Spr_Arrow_Changer && gArea[i] < e_Spr_Footbridge) || 
-//                    (gArea[i] >= e_Spr_Snakey_Stand_Left && gArea[i] < e_Spr_Alma_Down_Stand) ||
-//                    (gArea[i] >= e_Spr_Leeper_Sleeping_Down && gArea[i] < e_Spr_Rocky_Stand_Down) ||
-//                    (gArea[i] >= e_Spr_Skull_Stand_Down && gArea[i] < e_Spr_DonMedusa_Stand) ||
-//                    (gArea[i] >= e_Spr_Whale_Stand_Down && gArea[i] < e_Spr_Square)
-//                ){
-//                        gArea[i]=e_Case_Solid;
-//                }else{
-//                    gArea[i]=e_Case_Wall;
-//                }
-//            }
-
-//        }else{
-//            gArea[i]=e_Case_NoMap;
-//        }
-//    }
-
-//    //info_context lf Level_Display(gArea); lf
-//}
 
 void Level_DisplayCollide(s16 *pLvl){
     for (u32 i = 0, k=0; i < AREA_WIDTH*AREA_HEIGHT; i++, k++){
