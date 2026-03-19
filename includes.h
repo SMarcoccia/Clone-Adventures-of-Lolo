@@ -101,6 +101,7 @@
 // Palette color :
 #define COLOR_MAX 256
 
+
 typedef struct SGen{
     SDL_Surface *pScreen; // Surface afficher à l'écran.
     SDL_Surface *pBkg[BKGs_MAX]; // Tableau des Backgrounds.
