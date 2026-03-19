@@ -3,6 +3,8 @@
 // Valeur en largeur de la Moitié d'un sprite 8
 #define SPR_WIDTTH_HALF 8
 
+const bool bIsCommentary=true;
+
 SExg gExg;
 SPlayer gPlyr;
 
@@ -14,6 +16,7 @@ const u32 SPACE_CASE = 3;
 
 static bool isKeyPressed=false; // Appuie sur une touche ?
 
+// Ne devrait pas être là
 void Game_DisplayMonster(void)
 {
     for (int i = 0; i < MST_MAX_SLOTS; i++)
@@ -25,7 +28,7 @@ void Game_DisplayMonster(void)
         ); lf
     }
 }
-
+// Ne devrait pas être là
 void Game_DisplayItems(void)
 {
     for (int i = 0; i < gItemsLvls[gGen.nLevel].nNbItems; i++)
@@ -243,15 +246,38 @@ void Game_InitLevel(u32 nLvl)
     //Level_Display(gpLevels[gGame.nLevel], false);
 }
 
+void Game_CollidePlyrRecalage(SPlayer* pPlyr, u32 nLastPosX, u32 nLastPosY){
+
+    switch (pPlyr->nDir)
+    {
+        case e_Dir_Up:
+            if(bIsCommentary) {info_context lf} 
+            if(gPlyr.nLockedDir == e_Kb_Up) gPlyr.nPosY=nLastPosY;
+            break;
+        case e_Dir_Right:
+            if(bIsCommentary) {info_context lf} 
+            if(gPlyr.nLockedDir == e_Kb_Right) gPlyr.nPosX=nLastPosX;
+            break;
+        case e_Dir_Down:
+            if(bIsCommentary) {info_context lf} 
+            if(gPlyr.nLockedDir == e_Kb_Down) gPlyr.nPosY=nLastPosY;
+            break;
+        case e_Dir_Left:
+            if(bIsCommentary) {info_context lf} 
+            if(gPlyr.nLockedDir == e_Kb_Left) gPlyr.nPosX=nLastPosX;
+            break;
+    }
+}
+
 void Game_PlyrRecalage(SPlayer* pPlyr, u32 nLastPosX, u32 nLastPosY){
 
     switch (pPlyr->nDir)
     {
         case e_Dir_Up:
-            info_context lf
+            if(bIsCommentary){info_context lf}
             if((gPlyr.nPosY & 0xF00) == 0x800) return; // On recale que sur un bloc plein.
             gPlyr.nPosY = (nLastPosY & ~0xF00);
-            info_context lf
+            if(bIsCommentary){info_context lf}
             break;
         case e_Dir_Right:
             if((gPlyr.nPosX & 0xF00) == 0x800) return; // On recale que sur un bloc plein.
@@ -437,7 +463,7 @@ bool Game_CollidePlyrWalls(void)
     
     s32 nPlyrX=gPlyr.nPosX >> 8;
     s32 nPlyrY=gPlyr.nPosY >> 8;;
-    info_context printf("gPlyr.nSpeed %d", gPlyr.nSpeed);lf
+    if(bIsCommentary){info_context printf("gPlyr.nSpeed %d", gPlyr.nSpeed);lf}
 
     // Player-murs :
     // Position X = 0 :
@@ -484,7 +510,7 @@ bool Game_PlyrCheckDepl(SPlayer *pPlyr, u32 nDir){
     switch (nDir)
     {
     case e_Dir_Up:
-        info_context lf
+        if(bIsCommentary){info_context lf}
         if((pPlyr->nPosX & 0xF00) != 0 && (pPlyr->nPosX & 0xF00) != 0x800) return false;
         if((pPlyr->nPosY & 0xF00) == 0) {
             // Ici on verifie si on est sur un demi-bloc en x et s'il y a un solide au-dessus en utilisant posX+0xF00
@@ -494,30 +520,30 @@ bool Game_PlyrCheckDepl(SPlayer *pPlyr, u32 nDir){
             }
             nPosBlkY--;
         }
-        info_context lf
+        if(bIsCommentary){info_context lf}
         break;
     case e_Dir_Right:
-        info_context lf
+        if(bIsCommentary){info_context lf}
         if((pPlyr->nPosY & 0xF00) != 0 && (pPlyr->nPosY & 0xF00) != 0x800) return false;
         if((pPlyr->nPosY & 0xF00) == 0x800){
             nPosBlkY=(pPlyr->nPosY+0xF00) >> 12;
             nPosBlkY=gArea[((nPosBlkY) * AREA_WIDTH) + nPosBlkX+1].isSolid ? nPosBlkY : pPlyr->nPosY >> 12;
         }        
         nPosBlkX++;
-        info_context lf
+        if(bIsCommentary){info_context lf}
         break;
     case e_Dir_Down:
-        info_context lf
+        if(bIsCommentary){info_context lf}
         if((pPlyr->nPosX & 0xF00) != 0 && (pPlyr->nPosX & 0xF00) != 0x800) return false;
         if((pPlyr->nPosX & 0xF00) == 0x800){
             nPosBlkX=(pPlyr->nPosX+0xF00) >> 12;
             nPosBlkX=gArea[((nPosBlkY+1) * AREA_WIDTH) + nPosBlkX].isSolid ? nPosBlkX : pPlyr->nPosX >> 12;
         }
         nPosBlkY++;
-        info_context lf
+        if(bIsCommentary){info_context lf}
         break;
     case e_Dir_Left:
-        info_context lf
+        if(bIsCommentary){info_context lf}
         if((pPlyr->nPosY & 0xF00) != 0 && (pPlyr->nPosY & 0xF00) != 0x800) return false;
         if((pPlyr->nPosX & 0xF00) == 0) {
             if((pPlyr->nPosY & 0xF00) == 0x800){
@@ -526,382 +552,47 @@ bool Game_PlyrCheckDepl(SPlayer *pPlyr, u32 nDir){
             }                 
             nPosBlkX--;
         }
-        info_context lf
+        if(bIsCommentary){info_context lf}
         break;
     }
 
     // Test des blocs pleins
-    info_context printf("pPlyr->nPosX %d, pPlyr->nPosY %d, %d", pPlyr->nPosX, pPlyr->nPosY, ((pPlyr->nPosX & 0xF00) == 0 || (pPlyr->nPosX & 0xF00) == 0x800) && ((pPlyr->nPosY & 0xF00) == 0 || (pPlyr->nPosY & 0xF00) == 0x800));lf
+    if(bIsCommentary){info_context printf("pPlyr->nPosX %d, pPlyr->nPosY %d, %d", pPlyr->nPosX, pPlyr->nPosY, ((pPlyr->nPosX & 0xF00) == 0 || (pPlyr->nPosX & 0xF00) == 0x800) && ((pPlyr->nPosY & 0xF00) == 0 || (pPlyr->nPosY & 0xF00) == 0x800));lf}
     if(((pPlyr->nPosX & 0xF00) == 0 || (pPlyr->nPosX & 0xF00) == 0x800) && ((pPlyr->nPosY & 0xF00) == 0 || (pPlyr->nPosY & 0xF00) == 0x800))
     {
-        info_context lf
+        if(bIsCommentary){info_context lf}
         SAreaBox sArea=gArea[(nPosBlkY * AREA_WIDTH) + nPosBlkX];
         nType = sArea.nType;
+
+        if(bIsCommentary){info_context printf("nType %d", nType);lf}
+        // On est sur un bloc plein. Il faut que la case d'à côté soit vide.
         if(nType != e_Area_Ground && nType != e_Area_Sand && nType != e_Area_Chest &&
            nType != e_Area_Heart  && nType != e_Area_Arrow
         ){
-            info_context lf
-            return 0;
+            if(bIsCommentary){info_context lf}
+            return false;
         }
         // Est-ce que la direction du joueur est opposé à la direction de l'item de la flèche.
         else if ( nType == e_Area_Arrow && pPlyr->nDir == ~sArea.nDir)
-        {
-            return 0;
+        if(bIsCommentary){{info_context lf}
+            return false;
         }
     }
-    
-
+    if(bIsCommentary){info_context lf}
     return true;
-}
-
-void Game_CollidePlyrMsts(s32 nPlyrLastPosX, s32 nPlyrLastPosY)
-{
-    // Position Plyr au Centre du sprite en pixel.
-    s32 nPX=(gPlyr.nPosX  + 0x800) >> 8; 
-    s32 nPY=(gPlyr.nPosY  + 0x800) >> 8;    
-
-    // Position d'un bloc dans le jeu, pour rechercher s'il y a un obstacle après ou avant le Plyr.
-    u32 nPBlkX=nPX >> 4;
-    u32 nPBlkY=0;
-    u32 nPBlkFullY=0;
-
-    // Position Mst en pixel.
-    s32 nMX = 0;
-    s32 nMY = 0;
-
-    u32 nMBlkX=0;
-    u32 nMBlkY=0;
-    u32 nMBlkFullY=0;
-
-    // Coordonnées en pixel du solide.
-    s32 nSX=0;
-    s32 nSY=0;
-
-    for (int i = 0; i < MST_MAX_SLOTS; i++)
-    {
-        if(gMst[i].nUsed)
-        {
-            if(gMst[i].nProperty == e_Mst_Harmless){
-                if(gMst[i].nName == e_Mst_Rocky){
-                    info_context lf
-                    nMX=(gMst[i].nPosX + 0x800) >> 8;
-                    nMY=(gMst[i].nPosY + 0x800) >> 8;
-                    info_context printf("gMst[i].nPosX %d, nMX %d, nMY %d", gMst[i].nPosX, nMX, nMY);lf
-                    nMBlkX=nMX >> 4;                    
-
-                    // Horizontal : sur les côtés du monstre
-                    if (abs(nPX-nMX) <= SPR_SIZE*2 && abs(nPY-nMY) <= SPR_SIZE/2)
-                    {
-                        info_context lf
-                        if(
-                               ((gMst[i].nPosX & 0xF00) == 0 || (gMst[i].nPosX & 0xF00) == 0x800)
-                            && ((gMst[i].nPosY & 0xF00) == 0 || (gMst[i].nPosY & 0xF00) == 0x800)
-                        ){
-                            info_context lf
-                            gMst[i].nState=e_MstAnim_Idle;
-                            gMst[i].nSpeed=MST_SPEED_NOT;
-                        }
-                        info_context printf("abs(%d - %d) %d <= %d", nPX, nMX, abs(nPX-nMX), SPR_SIZE);lf
-                        // Collision
-                        if(abs(nPX-nMX) <= SPR_SIZE){
-                            info_context lf
-                            gPlyr.bCollideMst=true;
-                            // Recallage
-                            // P gauche M (En X P < M, à Gauche de l'écran par rapport à M)
-                            if(SGN(nPX-nMX) == -1){
-                                info_context lf
-                                gPlyr.nPosX=gMst[i].nPosX-0x1000;
-                                gPlyr.nLockedDir=e_Dir_Right;
-                            // P droite M (En X P > M, à Droite de l'écran par rapport à M)
-                            }else if(SGN(nPX-nMX) == 1){
-                                info_context lf
-                                gPlyr.nPosX=gMst[i].nPosX+0x1000;
-                                gPlyr.nLockedDir=e_Dir_Left;
-                            }                            
-                        }
-                        else
-                        {
-                            gPlyr.bCollideMst=false;
-                            gPlyr.nLockedDir=e_Dir_Null;
-                        }
-                        
-                    }
-                    // Vertical :
-                    else if (abs(nPX-nMX) != 0 && abs(nPX-nMX) <= SPR_SIZE/2 && abs(nPY-nMY) <= SPR_SIZE){
-                        info_context lf
-                        gMst[i].bCollidePlyr=true;
-
-                        // Recallage
-                        // P au-dessus de M (En Y P < M, en haut de l'écran par rapport à M)                        
-                        if(SGN(nPY-nMY) == -1){
-                            info_context lf
-                            info_context printf("AVANT gMst[i].nPosY %d, gMst[i].nLastPosY %d", gMst[i].nPosY, gMst[i].nLastPosY);lf
-                            if((gMst[i].nLastPosY & 0xF00) == 0x800){
-                                gMst[i].nPosY=gMst[i].nLastPosY; // Recallage obligatoire sinon on ne peut pas partir à gauche ou à droite pendant qu'on descend et que l'on appuie sur la flèche du bas. 
-                            }else if ((gMst[i].nLastPosY & 0xF00) == 0)
-                            {
-                                gMst[i].nPosY=gMst[i].nLastPosY & ~0xF00; // Recallage obligatoire sinon on ne peut pas partir à gauche ou à droite pendant qu'on descend et que l'on appuie sur la flèche du bas. 
-                            }
-                            
-                            info_context printf("APRES gMst[i].nPosY %d", gMst[i].nPosY);lf
-                            gPlyr.nPosY=gMst[i].nPosY-0x1000;
-                            gPlyr.nLockedDir=e_Dir_Down;
-                        // P en-dessous de M (En Y P > M, en bas de l'écran par rapport à M)
-                        }else if(SGN(nPY-nMY) == 1){
-                            info_context lf
-                            gPlyr.nPosY=gMst[i].nPosY+0x1000;
-                            gPlyr.nLockedDir=e_Dir_Up;
-                        }                           
-                        
-                        if((gPlyr.nPosY & 0xF00) == 0 || (gPlyr.nPosY & 0xF00) == 0x800){
-                            info_context lf
-                            gPlyr.bCollideMst=true;
-                        }
-                    }
-                    // Sur la même colonne
-                    else if(abs(nPX-nMX) == 0 && ((gMst[i].nPosX & 0xF00) == 0 || (gMst[i].nPosX & 0xF00) == 0x800 )){
-                        info_context lf
-                        
-                        gMst[i].nSpeed=PLYR_SPEED_INIT;
-                        gMst[i].nState=e_MstAnim_Walk;
-                        gMst[i].bCollidePlyr=false;
-
-                        nPBlkFullY=((nPY-SPR_SIZE/2) >> 4); 
-                        nMBlkFullY=((nMY-SPR_SIZE/2) >> 4);
-
-
-
-                        // Recallage
-                        // P en-dessous de M (En Y P < M, en haut de l'écran par rapport à M)                        
-                        if(SGN(nPY-nMY) == -1){
-                            gMst[i].nDir=e_Dir_Up;
-                            nPBlkY=((nPY-SPR_SIZE/2) >> 4)-1;
-                            nMBlkY=((nMY-SPR_SIZE/2) >> 4)-1;
-
-                        // P au-dessus de M (En Y P > M, en bas de l'écran par rapport à M)
-                        }else if(SGN(nPY-nMY) == 1){
-                            info_context lf
-                            gMst[i].nDir=e_Dir_Down;
-                            nPBlkY=((nPY-SPR_SIZE/2) >> 4)+1; 
-                            nMBlkY=((nMY-SPR_SIZE/2) >> 4)+1; 
-                        } 
-                        
-                        nSX=(gArea[nPBlkY*AREA_WIDTH+nPBlkX].nBlkX << 4)+SPR_SIZE/2;
-                        nSY=(gArea[nPBlkY*AREA_WIDTH+nPBlkX].nBlkY << 4)+SPR_SIZE/2;
-                        
-                        info_context printf("abs(%d-%d) %d <= %d", nPY, nMY, abs(nPY-nMY), SPR_SIZE);lf
-                        // Collision
-                        if(abs(nPY-nMY) <= SPR_SIZE){
-                            info_context lf
-                            gPlyr.bCollideMst=true;
-                            //gMst[i].bCollidePlyr=true; // Note : s'arrête P et M car M ne peut pas rentré dans la condition pour aller dans le switch
-                            info_context printf("gArea[%d*%d+%d].nType %d", nPBlkY, AREA_WIDTH, nPBlkX, gArea[nPBlkY*AREA_WIDTH+nPBlkX].nType);lf
-                            info_context printf("gArea[%d*%d+%d].isSolid %d", nPBlkY, AREA_WIDTH, nPBlkX, gArea[nPBlkY*AREA_WIDTH+nPBlkX].isSolid);lf
-                            info_context printf("gArea[%d*%d+%d].nType %d", nMBlkY, AREA_WIDTH, nMBlkX, gArea[nMBlkY*AREA_WIDTH+nMBlkX].nType);lf
-                            info_context printf("gArea[%d*%d+%d].isSolid %d", nMBlkY, AREA_WIDTH, nMBlkX, gArea[nMBlkY*AREA_WIDTH+nMBlkX].isSolid);lf
-
-                            
-                            if((gPlyr.nPosY & 0xF00) == 0 && gArea[nPBlkY*AREA_WIDTH+nPBlkX].isSolid && gArea[nPBlkY*AREA_WIDTH+nPBlkX].nType != e_Area_Chest && gArea[nPBlkY*AREA_WIDTH+nPBlkX].nType != e_Area_Heart){
-                                info_context lf
-
-                                if(((gMst[i].nPosY & 0xF00) == 0)){
-                                    gMst[i].nState=e_MstAnim_Idle;
-                                    gMst[i].nSpeed=MST_SPEED_NOT;
-                                    gMst[i].bCollidePlyr=true;
-                                }
-                                // Recallage
-                                // P above M (En Y P < M)
-                                if(SGN(nPY-nMY) == -1){
-                                    info_context lf
-                                    gPlyr.nLockedDir=e_Dir_Down;
-                                    gPlyr.nPosY=gMst[i].nPosY-0x1000;
-                                }
-                                // P bottom M (En Y P > M)
-                                else if(SGN(nPY-nMY) == 1){
-                                    info_context lf
-                                    gPlyr.nLockedDir=e_Dir_Up;
-                                    gPlyr.nPosY=nPlyrLastPosY & ~0xF00; 
-                                }
-                            }
-                            // Mst est-il au-dessous ou au-dessus d'un coffre ?
-                            else if(gArea[nMBlkY*AREA_WIDTH+nMBlkX].nType == e_Area_Chest && (gMst[i].nPosY & 0xF00) == 0 && gArea[(gPlyr.nPosY >> 12)*AREA_WIDTH+(gPlyr.nPosX >> 12)].nType == e_Area_Chest){
-                                info_context lf
-
-                                gMst[i].nSpeed=MST_SPEED_NOT;
-                                gMst[i].nState=e_MstAnim_Idle;
-                                gMst[i].bCollidePlyr=true;
-                            }
-                            //else if (gArea[nMBlkY*AREA_WIDTH+nMBlkX].nType == e_Area_Heart)
-                            //{
-                            //    /* code */
-                            //}
-                            
-                            else
-                            {
-                                info_context printf("abs(%d-%d) %d <= %d  && abs(%d-%d) %d <= %d", nPY, nSY, abs(nPY-nSY), SPR_SIZE, nMY, nSY, abs(nMY-nSY), SPR_SIZE);lf
-                                switch (gMst[i].nDir)
-                                {
-                                    case e_Dir_Up:
-                                        info_context lf
-                                        gPlyr.nPosY=gMst[i].nPosY-0x1000; // Note ici on ne met pas -0x100 car sinon quand on monte en appuyant sur donne jusqu'à un obstacle on le transperce et on est décalé sur la gauche. Mais comme dans le jeu originel en supprimant -0x100 tant que l'on est pas sur une case pleine P déborde sur M toujours si on monte et que l'on appuie sur la touche down.
-                                        gPlyr.nState=e_PlyrAnim_Walk;
-                                        gPlyr.nDir=e_Dir_Up;
-                                        gPlyr.nLockedDir=e_Dir_Down;
-                                        break;
-                                    case e_Dir_Down:
-                                        gPlyr.nPosY=gMst[i].nPosY+0x1000+0x100;
-                                        gPlyr.nState=e_PlyrAnim_Walk;
-                                        gPlyr.nDir=e_Dir_Down;
-                                        gPlyr.nLockedDir=e_Dir_Up;
-                                        break;
-                                }                            
-                            }
-                        }else if (abs(nPY-nMY) > SPR_SIZE && gArea[nMBlkY*AREA_WIDTH+nMBlkX].isSolid && (gMst[i].nPosY & 0xF00) == 0)
-                        {
-                            info_context lf
-                            //info_context printf("gArea[%d*%d+%d].isSolid %d, gArea[nMBlkY*AREA_WIDTH+nMBlkX].isSolid %d, (gMst[i].nPosY & 0xF00) %d == 0 && ((gMst[i].nPosX & 0xF00) %d == 0 || (gMst[i].nPosX & 0xF00) 0x%x == 0x800))", nMBlkY, AREA_WIDTH, nMBlkX, gArea[nMBlkY*AREA_WIDTH+nMBlkX].isSolid, gArea[nMBlkY*AREA_WIDTH+nMBlkX].isSolid, (gMst[i].nPosY & 0xF00), (gMst[i].nPosX & 0xF00), (gMst[i].nPosX & 0xF00)); lf
-                            gMst[i].nSpeed=0;
-                            gMst[i].nState=e_MstAnim_Idle;
-                        }
-                        else{
-                            info_context printf("gArea[%d*%d+%d].isSolid %d, gArea[nMBlkY*AREA_WIDTH+(gMst[i].nPosX >> 12)].isSolid %d, (gMst[i].nPosY & 0xF00) %d == 0 && ((gMst[i].nPosX & 0xF00) %d == 0 || (gMst[i].nPosX & 0xF00) 0x%x == 0x800))", nMBlkY, AREA_WIDTH, nMBlkX, gArea[nMBlkY*AREA_WIDTH+nMBlkX].isSolid, gArea[nMBlkY*AREA_WIDTH+(gMst[i].nPosX >> 12)].isSolid, (gMst[i].nPosY & 0xF00), (gMst[i].nPosX & 0xF00), (gMst[i].nPosX & 0xF00)); lf
-                            
-                            //if (gArea[nMBlkY*AREA_WIDTH+nMBlkX].isSolid && (gMst[i].nPosY & 0xF00) == 0 && ((gMst[i].nPosX & 0xF00) == 0 || (gMst[i].nPosX & 0xF00) == 0x800))
-                            if ((gArea[nMBlkY*AREA_WIDTH+nMBlkX].isSolid || gArea[nMBlkY*AREA_WIDTH+(gMst[i].nPosX >> 12)].isSolid) && (gMst[i].nPosY & 0xF00) == 0 && ((gMst[i].nPosX & 0xF00) == 0 || (gMst[i].nPosX & 0xF00) == 0x800))
-                            {
-                                info_context lf
-                                gMst[i].nSpeed=MST_SPEED_NOT;
-                                gMst[i].nState=e_MstAnim_Idle;
-
-                            }                            
-                            gPlyr.nKb=0;
-                        }
-                    }
-                    // Si P vertical (dir haut ou bas) et M vertical(dir haut ou bas) pour que la collision se fasse en douceur.
-                    else if (abs(nPX-nMX) > SPR_SIZE/2 && abs(nPX-nMX) < SPR_SIZE && abs(nPY-nMY) == SPR_SIZE)
-                    {
-                        info_context lf
-                        if((gPlyr.nDir == e_Dir_Down || gPlyr.nDir == e_Dir_Up) && (gMst[i].nDir == e_Dir_Left || gMst[i].nDir == e_Dir_Right)){
-                            info_context lf
-                            gPlyr.bCollideMst=true;
-                            // Recallage
-                            // P gauche M (En X P < M, à Gauche de l'écran par rapport à M)
-                            if(SGN(nPY-nMY) == -1){
-                                info_context lf
-                                gPlyr.nLockedDir=e_Dir_Down;
-                            // P droite M (En X P > M, à Droite de l'écran par rapport à M)
-                            }else if(SGN(nPY-nMY) == 1){
-                                info_context lf
-                                gPlyr.nLockedDir=e_Dir_Up;
-                            }  
-                        }else if ((gPlyr.nDir == e_Dir_Right || gPlyr.nDir == e_Dir_Left) && (gMst[i].nDir == e_Dir_Down || gMst[i].nDir == e_Dir_Up))
-                        {
-                            info_context lf
-                            gMst[i].nState=e_MstAnim_Idle;
-                            gMst[i].nSpeed=MST_SPEED_NOT;
-                        }else if ((gPlyr.nDir == e_Dir_Right && gMst[i].nDir == e_Dir_Right) || (gPlyr.nDir == e_Dir_Left || gMst[i].nDir == e_Dir_Left))
-                        {
-                            info_context lf
-                            gPlyr.bCollideMst=false;
-                            gPlyr.nSpeed=PLYR_SPEED_INIT;
-                            gMst[i].bCollidePlyr=false;
-                            gMst[i].nState=e_MstAnim_Walk;
-                            gMst[i].nSpeed=MST_SPEED_INIT;    
-                        }
-                        
-                    }
-                    // P vertical (dir up ou down) M horizontal (dir left ou right)
-                    else if (abs(nPX-nMX) == SPR_SIZE && abs(nPY-nMY) > SPR_SIZE/2 && abs(nPY-nMY) < SPR_SIZE)
-                    {
-                        info_context lf
-                        if((gPlyr.nDir == e_Dir_Down || gPlyr.nDir == e_Dir_Up) && (gMst[i].nDir==e_Dir_Right || gMst[i].nDir==e_Dir_Left)){
-                            info_context lf
-                            gMst[i].nState=e_MstAnim_Idle;
-                            gMst[i].nSpeed=MST_SPEED_NOT;
-                        }else if((gPlyr.nDir == e_Dir_Right || gPlyr.nDir == e_Dir_Left) && (gMst[i].nDir==e_Dir_Down || gMst[i].nDir==e_Dir_Up)){
-                            
-                            gPlyr.bCollideMst=true;
-
-                            // Recallage
-                            // P à gauche de M (En X P < M)
-                            if(SGN(nPX-nMX) == -1){
-                                info_context lf
-                                gPlyr.nPosX &= ~0xF00;
-                                gPlyr.nLockedDir=e_Dir_Right;
-                            // P à droite de M (En X P > M)
-                            }else if(SGN(nPX-nMX) == 1){
-                                gPlyr.nPosX=(gMst[i].nPosX & ~0xF00) + 0x1000;
-                                gPlyr.nLockedDir=e_Dir_Left;
-                            }
-                        }else if((gPlyr.nDir == e_Dir_Up &&  gMst[i].nDir == e_Dir_Up) || (gPlyr.nDir == e_Dir_Down &&  gMst[i].nDir == e_Dir_Down)){
-                            info_context lf
-                            gPlyr.bCollideMst=false;
-                            gPlyr.nSpeed=PLYR_SPEED_INIT;
-                            gMst[i].bCollidePlyr=false;
-                            gMst[i].nState=e_MstAnim_Walk;
-                            gMst[i].nSpeed=MST_SPEED_INIT;                            
-                        }
-                    }
-                    // Si collision entre P et M et que P et M se chevauche et ne son plus tous les 2 sur un bloc plein.
-                    else if (abs(nPX-nMX) > SPR_SIZE/2 && abs(nPX-nMX) < SPR_SIZE && abs(nPY-nMY) > SPR_SIZE/2 && abs(nPY-nMY) < SPR_SIZE)
-                    {
-                        info_context lf
-                        if((gPlyr.nDir==e_Dir_Left || gPlyr.nDir==e_Dir_Right) && (gMst[i].nDir==e_Dir_Down || gMst[i].nDir==e_Dir_Up)){
-                            info_context lf
-                            gPlyr.bCollideMst=true;
-
-                            // Recallage
-                            // P à gauche de M (En X P < M)
-                            if(SGN(nPX-nMX) == -1){
-                                info_context lf
-                                gPlyr.nPosX &= ~0xF00;
-                                gPlyr.nLockedDir=e_Dir_Right;
-                            // P à droite de M (En X P > M)
-                            }else if(SGN(nPX-nMX) == 1){
-                                gPlyr.nPosX=(gMst[i].nPosX & ~0xF00) + 0x1000;
-                                gPlyr.nLockedDir=e_Dir_Left;
-                            }
-                        }else if((gPlyr.nDir==e_Dir_Up || gPlyr.nDir==e_Dir_Down) && (gMst[i].nDir==e_Dir_Left || gMst[i].nDir==e_Dir_Right)){
-                            info_context lf
-                            // Recallage
-                            // P en-dessous de M (En X P < M)
-                            if(SGN(nPY-nMY) == -1){
-                                info_context lf
-                                gPlyr.nPosY &= ~0xF00;
-                                gPlyr.nLockedDir=e_Dir_Right;
-                            // P au-dessus de M (En X P > M)
-                            }else if(SGN(nPY-nMY) == 1){
-                                gPlyr.nPosY=(gMst[i].nPosY & ~0xF00) + 0x1000;
-                                gPlyr.nLockedDir=e_Dir_Left;
-                            }                               
-                        }
-                    }
-                    else{
-                        info_context lf
-                        gPlyr.bCollideMst=false;
-                        gPlyr.nSpeed=PLYR_SPEED_INIT;
-                        gMst[i].bCollidePlyr=false;
-                        gMst[i].nState=e_MstAnim_Walk;
-                        gMst[i].nSpeed=MST_SPEED_INIT;
-                        // Si collision solide en demi-bloc haut ou bas alors on change la direction.
-
-                    }
-                }
-            }
-        }
-    }    
 }
 
 void Game_PlyrMove(void)
 {
-    info_context printf("gPlyr.nKb %d, gPlyr.nDir %d, gPlyr.nSpeed %d, gPlyr.nState %d", gPlyr.nKb, gPlyr.nDir, gPlyr.nSpeed, gPlyr.nState);lf
+    if(bIsCommentary){info_context printf("gPlyr.nKb %d, gPlyr.nLockedDir %d, gPlyr.nDir %d, gPlyr.nSpeed %d, gPlyr.nState %d", gPlyr.nKb, gPlyr.nLockedDir, gPlyr.nDir, gPlyr.nSpeed, gPlyr.nState);lf}
 
     u32 nLastDir=e_Dir_Null;
+    u32 nLastKb=e_Kb_Null;
 
     s32 nLastPosX=gPlyr.nPosX;
     s32 nLastPosY=gPlyr.nPosY;
 
-    // Verifie si le plyr à changer de bloc ou de demi-bloc.
+    // Sert à vérifier si le plyr à changer de bloc ou de demi-bloc.
     u32 nChgBlkX=0;
     u32 nChgBlkY=0;
 
@@ -920,302 +611,122 @@ void Game_PlyrMove(void)
         : gGen.pKeys[SDLK_LEFT] ? e_Kb_Left : 0
     );
 
-    info_context printf("gPlyr.nSpeed %d, gPlyr.nKb %d", gPlyr.nSpeed, gPlyr.nKb);lf
+    // Simuler le clic mettre une variable dans gPlyr nKbSimul
 
-    if(gPlyr.nKb){
-        info_context lf
+    // Le joueur a-t-il appuyé ?
+    if(gPlyr.nKb)
+    {
         gPlyr.nCountFrames=TIMER_FRAMES_SLEEPING;
         gGen.nIsStartPlyr=true;
-        isKeyPressed=true;        
-    }else
+        isKeyPressed=true;           
+        nLastDir=gPlyr.nDir;
+        gPlyr.nSpeed=PLYR_SPEED_INIT;
+        gPlyr.nState=e_PlyrAnim_Walk;
+
+        switch (gPlyr.nKb)
+        {
+        case e_Kb_Up:
+            if(bIsCommentary){info_context lf}
+            // On a pas le droit de modifier la direction tant que l'on est pas sur un bloc plein ou un demi-bloc.
+            if((gPlyr.nPosX & 0xF00) != 0 && (gPlyr.nPosX & 0xF00) != 0x800) break;
+            gPlyr.nDir=e_Dir_Up;
+            if(bIsCommentary){info_context lf}
+            break;
+        case e_Kb_Right:
+            if(bIsCommentary){info_context printf("gPlyr.nPosX %d, gPlyr.nPosX >> 8 = %d, BlkX %d, gPlyr.nPosY %d, gPlyr.nPosY >> 8 = %d, BlkY %d", gPlyr.nPosX, gPlyr.nPosX >> 8, gPlyr.nPosX >> 12, gPlyr.nPosY, gPlyr.nPosY >> 8, gPlyr.nPosY >> 12);lf}
+            if(bIsCommentary){info_context lf}
+            if((gPlyr.nPosY & 0xF00) != 0 && (gPlyr.nPosY & 0xF00) != 0x800) break;
+            gPlyr.nDir=e_Dir_Right;
+            if(bIsCommentary){info_context lf}
+            break;
+        case e_Kb_Down:
+            if(bIsCommentary){info_context lf}
+            if((gPlyr.nPosX & 0xF00) != 0 && (gPlyr.nPosX & 0xF00) != 0x800) break;
+            gPlyr.nDir=e_Dir_Down;
+            if(bIsCommentary){info_context lf}
+            break;
+        case e_Kb_Left:
+            if(bIsCommentary){info_context printf("(%d & 0xF00) %x != 0,  (%d & 0xF00) %x != 0x800", (gPlyr.nPosY), (gPlyr.nPosY & 0xF00), (gPlyr.nPosY), (gPlyr.nPosY & 0xF00)); lf}
+            if((gPlyr.nPosY & 0xF00) != 0 && (gPlyr.nPosY & 0xF00) != 0x800) break;
+            gPlyr.nDir=e_Dir_Left;
+            if(bIsCommentary){info_context lf}
+            break;
+        }
+
+        if( ! Game_PlyrCheckDepl(&gPlyr, gPlyr.nDir))
+        {
+            gPlyr.nSpeed=0;
+        }
+    }
+    else
     {
         isKeyPressed=false;
+        if(--gPlyr.nCountFrames <= 0)
+        {
+            gPlyr.nState=e_PlyrAnim_Sleeping;
+        }
+
+        if(((gPlyr.nPosX & 0xF00) == 0 || (gPlyr.nPosX & 0xF00) == 0x800) && ((gPlyr.nPosY & 0xF00) == 0 || (gPlyr.nPosY & 0xF00) == 0x800))
+        {
+            gPlyr.nSpeed=0;
+            gPlyr.nState=e_PlyrAnim_Idle;
+        }
+
     }
     
-    if(gPlyr.nSpeed)
-    {
-        info_context lf
+    if(gPlyr.nSpeed){
+
         switch (gPlyr.nDir)
         {
         case e_Dir_Up:
-            info_context lf
+            // Sur un bloc plein ou un demi-bloc ? Non on break.
+            if((gPlyr.nPosX & 0xF00) != 0 && (gPlyr.nPosX & 0xF00) != 0x800) break;
+            if(bIsCommentary){info_context lf}
+            // Permet si collision avec M de se déplacer dans les autres directions opposé à la collision.
+            if(gPlyr.nLockedDir == e_Kb_Up) break;
+            if(bIsCommentary){info_context lf}
             gPlyr.nPosY -= gPlyr.nSpeed;
             nChgBlkY=(((gPlyr.nPosY+0xF00) ^ (nLastPosY+0xF00)) & 0xF00) == 0xF00 ? 1 : 0;
             break;
         case e_Dir_Right:
-            info_context lf
+            if((gPlyr.nPosY & 0xF00) != 0 && (gPlyr.nPosY & 0xF00) != 0x800) break;
+            if(gPlyr.nLockedDir == e_Kb_Right) break;
+            if(bIsCommentary){info_context lf}
             gPlyr.nPosX += gPlyr.nSpeed;
             nChgBlkX=((gPlyr.nPosX ^ nLastPosX) & 0xF00) == 0xF00 ? 1 : 0;
             break;
         case e_Dir_Down:
-            info_context lf
+            if((gPlyr.nPosX & 0xF00) != 0 && (gPlyr.nPosX & 0xF00) != 0x800) break;
+            if(gPlyr.nLockedDir == e_Kb_Down) break;
+            if(bIsCommentary){info_context lf}
             gPlyr.nPosY += gPlyr.nSpeed;
             nChgBlkY=((gPlyr.nPosY ^ nLastPosY) & 0xF00) == 0xF00 ? 1 : 0;
             break;
         case e_Dir_Left:
-            info_context lf
+            if((gPlyr.nPosY & 0xF00) != 0 && (gPlyr.nPosY & 0xF00) != 0x800) break;
+            if(gPlyr.nLockedDir == e_Kb_Left) break;
+            if(bIsCommentary){info_context lf}
             gPlyr.nPosX -= gPlyr.nSpeed;
             nChgBlkX=(((gPlyr.nPosX + 0xF00) ^ (nLastPosX+0xF00)) & 0xF00) == 0xF00 ? 1 : 0;
             break;
         }
-        
-        // Si changement de bloc et demi-bloc, on stop.
-        if(nChgBlkX || nChgBlkY){
-            info_context lf
-            gPlyr.nSpeed=0; // ATTENTION SI ON MET SPEED ICI ON DOIT AJOUTER CHEKDEPLACEMENT
+
+        // NOTE : Faire un recalage ?
+        if(nChgBlkX || nChgBlkY)
+        {
             Game_PlyrRecalage(&gPlyr, nLastPosX, nLastPosY);
         }
-
-        info_context lf
-        gPlyr.nState = (gPlyr.nSpeed ? e_PlyrAnim_Walk : e_PlyrAnim_Idle);
     }
 
-    info_context printf("gPlyr.nKb %d, gPlyr.nSpeed %d, gPlyr.nLockedDir %d", gPlyr.nKb, gPlyr.nSpeed, gPlyr.nLockedDir);lf
-    // Pour les collisions
-    if(gPlyr.nLockedDir == gPlyr.nKb) gPlyr.nKb = 0;
+    if(bIsCommentary){info_context printf("gPlyr.nKb %d, gPlyr.nLockedDir %d, gPlyr.nDir %d, gPlyr.nSpeed %d, gPlyr.nState %d", gPlyr.nKb, gPlyr.nLockedDir, gPlyr.nDir, gPlyr.nSpeed, gPlyr.nState);lf}
 
-    if (gPlyr.nKb)
-    {
-        info_context lf
-        nLastDir=gPlyr.nDir;
-        switch (gPlyr.nKb)
-        {
-        case e_Kb_Up:
-            info_context lf
-            // On a pas le droit de modifier la direction tant que l'on est pas sur un bloc plein ou un demi-bloc.
-            // Si erreur voir avec un goto
-            if((gPlyr.nPosX & 0xF00) != 0 && (gPlyr.nPosX & 0xF00) != 0x800) break;
-            gPlyr.nDir=e_Dir_Up;
-            info_context lf
-            break;
-        case e_Kb_Right:
-            info_context lf
-            if((gPlyr.nPosY & 0xF00) != 0 && (gPlyr.nPosY & 0xF00) != 0x800) break;
-            gPlyr.nDir=e_Dir_Right;
-            info_context lf
-            break;
-        case e_Kb_Down:
-            info_context lf
-            if((gPlyr.nPosX & 0xF00) != 0 && (gPlyr.nPosX & 0xF00) != 0x800) break;
-            gPlyr.nDir=e_Dir_Down;
-            info_context lf
-            break;
-        case e_Kb_Left:
-            info_context printf("(%d & 0xF00) %x != 0,  (%d & 0xF00) %x != 0x800", (gPlyr.nPosY), (gPlyr.nPosY & 0xF00), (gPlyr.nPosY), (gPlyr.nPosY & 0xF00)); lf
-            if((gPlyr.nPosY & 0xF00) != 0 && (gPlyr.nPosY & 0xF00) != 0x800) break;
-            gPlyr.nDir=e_Dir_Left;
-            info_context lf
-            break;
-        }
-
-        if(Game_PlyrCheckDepl(&gPlyr, gPlyr.nDir)){
-            info_context lf
-            gPlyr.nSpeed=PLYR_SPEED_INIT;
-            gPlyr.nState=e_PlyrAnim_Walk;
-            
-        }else
-        {
-            // Si on est en collision (mur, arbre, pierre, ...) on peut quand même marché mais pas se déplacer.
-            gPlyr.nState=e_PlyrAnim_Walk;
-        }
-    }else
-    {
-        gPlyr.nState=e_PlyrAnim_Idle;
-    }
-    
+    Game_CollidePlyrWalls();
+    //Game_CollidePlyrDecor(gGen.nLevel); // Remplacé par Game_PlyrCheckDepl
     Game_CollidePlyrItem(gGen.nLevel);
     AnimSpr_PlyrAnimSetIfNew(&gPlyr);
 
-    info_context printf("gPlyr.nKb %d, gPlyr.nDir %d, gPlyr.nSpeed %d, gPlyr.nState %d", gPlyr.nKb, gPlyr.nDir, gPlyr.nSpeed, gPlyr.nState);lf
+    if(bIsCommentary){info_context printf("gPlyr.nKb %d, gPlyr.nLockedDir %d, gPlyr.nDir %d, gPlyr.nSpeed %d, gPlyr.nState %d", gPlyr.nKb, gPlyr.nLockedDir, gPlyr.nDir, gPlyr.nSpeed, gPlyr.nState);lf}
 }
-
-//void Game_PlyrMove(void)
-//{
-//    //info_context printf("gPlyr.nSpeed %d", gPlyr.nSpeed);lf
-//    //info_context printf("gPlyr.nState %d, ", gPlyr.nState);lf
-//    u32 nLastDir=0;
-//    // Verifie si le plyr à changer de bloc ou de demi-bloc.
-//    u32 nChgBlkX=0;
-//    u32 nChgBlkY=0; 
-
-//    s32 nLastPosX=gPlyr.nPosX;
-//    s32 nLastPosY=gPlyr.nPosY;
-
-//    if(gPlyr.nState != e_PlyrAnim_Death)
-//    {
-//        //info_context printf("gPlyr.nState %d, gGen.nIsStartPlyr %d", gPlyr.nState, gGen.nIsStartPlyr);lf
-//        // Si on a appuyé sur une touche fléché.
-//        if(gGen.pKeys[SDLK_DOWN] || gGen.pKeys[SDLK_LEFT] || gGen.pKeys[SDLK_UP] || gGen.pKeys[SDLK_RIGHT])
-//        {
-//            //info_context lf
-//            gPlyr.nSpeed=PLYR_SPEED_INIT; 
-//            gPlyr.nState=e_PlyrAnim_Walk; 
-//            gPlyr.nCountFrames=TIMER_FRAMES_SLEEPING; // Vaut 5 mins.
-//            gGen.nIsStartPlyr=true;
-//            isKeyPressed=true;
-//        }
-//        else
-//        {
-//            isKeyPressed=false;
-//        }
-//        info_context printf("gGen.pKeys[SDLK_DOWN] %d, gGen.pKeys[SDLK_LEFT] %d, gGen.pKeys[SDLK_UP] %d, gGen.pKeys[SDLK_RIGHT] %d", gGen.pKeys[SDLK_DOWN], gGen.pKeys[SDLK_LEFT], gGen.pKeys[SDLK_UP], gGen.pKeys[SDLK_RIGHT]);lf
-//        // Condition posX % 8 ou posY % 8 pour interdire au joueur de modifier son déplacement tant que l'on est pas arrivé sur une case ou une demie case.
-//        if(isKeyPressed){
-        
-//            if((gPlyr.nPosX >> 8) % 8 == 0 && (gPlyr.nPosY >> 8) % 8 == 0){
-//                // Direction du Plyr
-//                if(gGen.pKeys[SDLK_UP]){
-//                    info_context lf
-//                    gPlyr.nKb=e_Kb_Up;
-//                }
-//                else if(gGen.pKeys[SDLK_RIGHT]){
-//                    info_context lf            
-//                    gPlyr.nKb=e_Kb_Right;
-//                } 
-//                else if(gGen.pKeys[SDLK_DOWN]){
-//                    info_context lf            
-//                    gPlyr.nKb=e_Kb_Down;
-//                } 
-//                else if(gGen.pKeys[SDLK_LEFT]){
-//                    info_context lf            
-//                    gPlyr.nKb=e_Kb_Left;
-//                }
-//            }else{
-//                info_context lf
-//                gPlyr.nKb=e_Kb_Null;
-//            }
-        
-//            if(gPlyr.nLockedDir == gPlyr.nKb) gPlyr.nKb = e_Kb_Null;
-        
-//            //nLastDir=gPlyr.nDir;
-//            //if(gPlyr.nKb != e_Kb_Null)
-//            //{
-//            //    info_context lf
-//            //    switch (gPlyr.nKb)
-//            //    {
-//            //    case e_Kb_Up:
-//            //        gPlyr.nDir=e_Dir_Up;
-//            //        break;
-//            //    case e_Kb_Right:
-//            //        gPlyr.nDir=e_Dir_Right;
-//            //        break;
-//            //    case e_Kb_Down:
-//            //        gPlyr.nDir=e_Dir_Down;
-//            //        break;
-//            //    case e_Kb_Left:
-//            //        gPlyr.nDir=e_Dir_Left;
-//            //        break;
-//            //    }
-
-//            //    //if(Game_PlyrCheckDepl(&gPlyr, gPlyr.nDir)){
-//            //    //    info_context lf
-//            //    //    gPlyr.nState=e_PlyrAnim_Walk; 
-//            //    //    gPlyr.nSpeed=PLYR_SPEED_INIT; 
-//            //    //}
-//            //}
-//        }
-//        info_context printf("gPlyr.nSpeed %d", gPlyr.nSpeed);lf
-//        // XOR : A ou B = Non [ (Non A) et (Non B)]
-//        // Déplacement en cours
-//        if(gPlyr.nSpeed){
-//            switch (gPlyr.nDir)
-//            {
-//            case e_Dir_Up:
-//                info_context lf
-//                if((gPlyr.nPosX & 0xF00) != 0 && (gPlyr.nPosX & 0xF00) != 0x800) break;
-//                gPlyr.nPosY-=gPlyr.nSpeed;
-//                // On change de bloc ou de demi-bloc ?
-//                nChgBlkY=(((gPlyr.nPosY+0xF00) ^ (nLastPosY+0xF00)) & 0xF00) == 0xF00 ? 1 : 0;
-//                info_context lf
-//                break;
-//            case e_Dir_Right:
-//                info_context lf
-//                if((gPlyr.nPosY & 0xF00) != 0 && (gPlyr.nPosY & 0xF00) != 0x800) break;
-//                gPlyr.nPosX+=gPlyr.nSpeed;
-//                nChgBlkX=((gPlyr.nPosX ^ nLastPosX) & 0xF00) == 0xF00 ? 1 : 0;
-//                info_context lf
-//                break;
-//            case e_Dir_Down:
-//                info_context lf
-//                if((gPlyr.nPosX & 0xF00) != 0 && (gPlyr.nPosX & 0xF00) != 0x800) break;
-//                gPlyr.nPosY+=gPlyr.nSpeed;
-//                nChgBlkY=((gPlyr.nPosY ^ nLastPosY) & 0xF00) == 0xF00 ? 1 : 0;
-//                info_context lf
-//                break;
-//            case e_Dir_Left:
-//                info_context lf
-//                if((gPlyr.nPosY & 0xF00) != 0 && (gPlyr.nPosY & 0xF00) != 0x800) break;
-//                gPlyr.nPosX-=gPlyr.nSpeed;
-//                nChgBlkX=(((gPlyr.nPosX + 0xF00) ^ (nLastPosX+0xF00)) & 0xF00) == 0xF00 ? 1 : 0;
-//                info_context lf
-//                break;
-//            }
-
-//            // Si changement de bloc et demi-bloc, on stop.
-//            if(nChgBlkX || nChgBlkY){
-//                info_context lf
-//                //gPlyr.nSpeed=0; // ATTENTION SI ON MET SPEED ICI ON DOIT AJOUTER CHEKDEPLACEMENT
-//                Game_PlyrRecalage(&gPlyr, nLastPosX, nLastPosY);
-//            }
-
-//            //info_context printf("gPlyr.nSpeed %d", gPlyr.nSpeed);lf
-//            gPlyr.nState = (gPlyr.nSpeed ? e_PlyrAnim_Walk : e_PlyrAnim_Idle);
-
-//        } // FIN if(gPlyr.nSpeed)
-//        else if(gGen.nIsStartPlyr && gPlyr.nSpeed)
-//        {
-//            if(gPlyr.nState == e_PlyrAnim_Idle && --gPlyr.nCountFrames <= 0)
-//            {
-//                //info_context lf
-//                gPlyr.nState=e_PlyrAnim_Sleeping;
-//            }
-//        }
-
-
-//        nLastDir=gPlyr.nDir;
-//        if(gPlyr.nKb != e_Kb_Null)
-//        {
-//            info_context lf
-//            switch (gPlyr.nKb)
-//            {
-//            case e_Kb_Up:
-//                gPlyr.nDir=e_Dir_Up;
-//                break;
-//            case e_Kb_Right:
-//                gPlyr.nDir=e_Dir_Right;
-//                break;
-//            case e_Kb_Down:
-//                gPlyr.nDir=e_Dir_Down;
-//                break;
-//            case e_Kb_Left:
-//                gPlyr.nDir=e_Dir_Left;
-//                break;
-//            }
-
-//            if(Game_PlyrCheckDepl(&gPlyr, gPlyr.nDir)){
-//                info_context lf
-//                gPlyr.nState=e_PlyrAnim_Walk; 
-//                gPlyr.nSpeed=PLYR_SPEED_INIT; 
-//            }
-//        }        
-
-//        //gPlyr.nState = (gPlyr.nSpeed ? e_PlyrAnim_Walk : e_PlyrAnim_Idle);
-
-//        // Ceci permet de stoper P à n'importe qu'elle moment, il n'avance plus case par case mais pixel par pixel.
-//        //if( ! isKeyPressed){
-//        //    gPlyr.nDir=nLastDir;
-//        //    gPlyr.nState=e_PlyrAnim_Idle;
-//        //    gPlyr.nSpeed=0;
-//        //}
-//    } // FIN if(gPlyr.nState != e_PlyrAnim_Death)
-
-    
-//    Game_CollidePlyrWalls();
-//    Game_CollidePlyrDecor(gGen.nLevel);
-//    Game_CollidePlyrItem(gGen.nLevel);  // ICI ON RECUPERE LE COEUR
-//    AnimSpr_PlyrAnimSetIfNew(&gPlyr); 
-//    //info_context printf("isKeyPressed %d", isKeyPressed);lf
-//}
 
 void LoloAdventureGame(void)
 {
@@ -1226,7 +737,9 @@ void LoloAdventureGame(void)
             // Note : j'ai mis Monster_... avant pour éviter que Monster bouge si player bouge et si on est en collision.
             printf("%d - ", count++); info_context printf(">>>>>>>>>>>>>>>>>>>");lf
             Game_PlyrMove();
+            printf("%d - ", count++); info_context printf("===================");lf
             Monsters_MonstersMove(gGen.nLevel);
+            if(bIsCommentary){info_context printf("gPlyr.nKb %d, gPlyr.nLockedDir %d, gPlyr.nDir %d, gPlyr.nSpeed %d, gPlyr.nState %d", gPlyr.nKb, gPlyr.nLockedDir, gPlyr.nDir, gPlyr.nSpeed, gPlyr.nState);lf}
             printf("%d - ", count++); info_context printf("<<<<<<<<<<<<<<<<<<<");lf
             break;
         case e_Game_GameOver:
@@ -1340,12 +853,13 @@ void Game_InitPlyr(u32 nLvl)
     gPlyr.nFlags=0;
     gPlyr.nNbLives=PLYR_LIVES;
     gPlyr.nAnimNoSlot=Animspr_AnimSet(gPlyr.pAnim, gPlyr.nAnimNoSlot);
-    gPlyr.nLockedDir=e_Dir_Null;
+    gPlyr.nLockedDir=e_Kb_Null;
 }
 
 void Game_Init(void)
 {
     gGen.nIsStartPlyr=false;
+    gGame.bSimulKey=false;
     
     // Init des slots
     Animspr_InitSlots();
@@ -1359,14 +873,13 @@ void Game_Init(void)
 
     Game_InitLevel(gGen.nLevel);
     Level_Display(gpLevels[gGame.nLevel], true);
-    info_context printf("%d", gArea[12*AREA_WIDTH+3].nType); lf
+    if(bIsCommentary){info_context printf("%d", gArea[12*AREA_WIDTH+3].nType); lf}
 }
 
 void Game_ExgExit(u32 nExitCode){
     gExg.nExitCode=nExitCode;
     gExg.nLevel=gGame.nLevel; 
 }
-
 
 void Game_ExgInit(){
 
